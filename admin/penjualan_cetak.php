@@ -1,76 +1,108 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
 
-ob_start();
-require('../assets/pdf/fpdf.php');
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sash – Bootstrap 5 Admin & Dashboard Template">
+    <meta name="author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+    <link rel="shortcut icon" type="image/x-icon" href="../sash/images/brand/favicon.ico" />
+    <title>Cetak</title>
+    <link id="style" href="../sash/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../sash/css/style.css" rel="stylesheet" />
+    <link href="../sash/css/dark-style.css" rel="stylesheet" />
+    <link href="../sash/css/transparent-style.css" rel="stylesheet">
+    <link href="../sash/css/skin-modes.css" rel="stylesheet" />
+    <link href="../sash/css/icons.css" rel="stylesheet" />
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="../sash/colors/color1.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
 
-$pdf = new FPDF("L","cm","A4");
+    <script>
+        $(document).ready(function () {
+            $('#laporanTable').DataTable({
+                "paging": false,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": true
+            });
+        });
+    </script>
 
-$pdf->SetMargins(2,1,1);
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Times','B',12);
-$pdf->Image('../log.png',1,1,2,2);
-$pdf->SetX(4);            
-$pdf->MultiCell(19.5,0.5,'LAPORAN DATA PENJUALAN',0,'L');    
-$pdf->SetFont('Arial','B',10);
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'Telpon :082378250151 ',0,'L');
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'Saphire Lounge',0,'L');
-$pdf->SetX(4);
-$pdf->MultiCell(19.5,0.5,'Jambi Selatan',0,'L');
-$pdf->Line(1,3.1,28.5,3.1);
-$pdf->SetLineWidth(0.1);      
-$pdf->Line(1,3.2,28.5,3.2);   
-$pdf->SetLineWidth(0);
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',14);
-$pdf->Cell(0,0.7,'Laporan data Penjualan',0,0,'C');
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',10);
-$pdf->Cell(5,0.7,"Di cetak pada : ".date("D-d/m/Y"),0,0,'C');
-$pdf->ln(1);
-$pdf->SetFont('Arial','B',8);
-$pdf->Cell(1.5, 0.8, 'No', 1, 0, 'C');
-$pdf->Cell(6, 0.8, 'Tanggal', 1, 0, 'C');
-$pdf->Cell(6, 0.8, 'Nama Barang', 1, 0, 'C');
-$pdf->Cell(12, 0.8, 'Jumlah (Rp)', 1, 0, 'C');
-$pdf->ln();
+</head>
 
-$no=1;
-include '../koneksi.php';
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-lg-12 text-end">
+                            <p class="mb-0">Cetak Data</p>
+                            <p class="mb-0">Mulai Tanggal <?= date('d-m-Y', strtotime($_POST['tanggal1'])) ?></p>
+                            <p class="mb-0">Sampai dengan <?= date('d-m-Y', strtotime($_POST['tanggal2'])) ?></p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <?php include('header.php'); ?>
+                        <div class="table-responsive push">
+                            <table id="laporanTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Nama Barang</th>
+                                        <th>Jumlah (Rp)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $no = 1;
+                                    include '../koneksi.php';
 
-$tanggal1 = date('Y-m-d', strtotime($_POST['tanggal1']));
-$tanggal2 = date('Y-m-d', strtotime($_POST['tanggal2']));
+                                    $tanggal1 = date('Y-m-d', strtotime($_POST['tanggal1']));
+                                    $tanggal2 = date('Y-m-d', strtotime($_POST['tanggal2']));
 
+                                    $query = mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE tanggal_jual BETWEEN '$tanggal1' AND '$tanggal2'");
+                                    while ($lihat = mysqli_fetch_array($query)) {
+                                    ?>
+                                        <tr>
+                                            <td><?= $no; ?></td>
+                                            <td><?= $lihat['tanggal_jual']; ?></td>
+                                            <td><?= $lihat['nama_barang']; ?></td>
+                                            <td>Rp. <?= number_format($lihat['jumlah_jual']); ?></td>
+                                        </tr>
+                                    <?php
+                                        $no++;
+                                    }
+                                    $query_total = mysqli_query($koneksi, "SELECT SUM(jumlah_jual) as total_jumlah FROM data_penjualan WHERE tanggal_jual BETWEEN '$tanggal1' AND '$tanggal2'");
+                                    $total_jumlah = mysqli_fetch_assoc($query_total)['total_jumlah'];
+                                    ?>
+                                    <tr>
+                                        <td colspan="3">Total Pendapatan</td>
+                                        <td>Rp. <?= number_format($total_jumlah) ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-$query=mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE tanggal_jual BETWEEN '$tanggal1' AND '$tanggal2'");
-while($lihat=mysqli_fetch_array($query)){
-	$pdf->Cell(1.5, 0.8, $no , 1, 0, 'C');
-	$pdf->Cell(6, 0.8, $lihat['tanggal_jual'],1, 0, 'C');
-	$pdf->Cell(6, 0.8, $lihat['nama_barang'],1, 0, 'C');
-	$pdf->Cell(12, 0.8, 'Rp. '. number_format($lihat['jumlah_jual']), 1, 0,'C');
-	$pdf->ln();
-	$no++;
-}
+    <script src="../sash/js/jquery.min.js"></script>
+    <script src="../sash/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="../sash/plugins/datatable/js/dataTables.bootstrap5.js"></script>
+    <script src="../sash/js/table-data.js"></script>
+    <script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Include other scripts as needed -->
+</body>
 
-$query1 = mysqli_query($koneksi, "SELECT sum(jumlah_jual) as jumlahJual FROM data_penjualan WHERE tanggal_jual BETWEEN '$tanggal1' AND '$tanggal2'");
-$data1  = mysqli_fetch_array($query1);
-	$pdf->Cell(13.5, 0.8,'Total Pendapatan',1, 0, 'C');
-	$pdf->Cell(12, 0.8,'Rp. '. number_format($data1['jumlahJual']), 1, 0, 'C');
-
-$pdf->ln();
-$pdf->SetFont('Arial','B',10);
-
-$pdf->Cell(24.3,1.7," Jambi, ".date("D-d/m/Y"),0,0,'R');
-$pdf->ln();
-$pdf->Cell(24,0.7,'PEMILIK USAHA',0,0,'R');
-$pdf->ln();
-$pdf->ln();
-$pdf->ln();
-$pdf->Cell(23.7,0.7,'Sri Wardhani',0,0,'R');
-
-$pdf->Output("laporan_data_penjualan.pdf","I");
-
-?>
-
+</html>

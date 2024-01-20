@@ -109,12 +109,12 @@ function updateFormat() {
         <div class="form-group">
           <label for="nip">NIP Karyawan</label>
           <input type="text" class="form-control" name="nip" autocomplete="off" placeholder="Input NIP Karyawan"
-            value="1929042001" required>
+           " required>
         </div>
         <div class="form-group">
           <label for="nama_karyawan">Nama Karyawan</label>
           <input type="text" class="form-control" name="nama_karyawan" autocomplete="off"
-            placeholder="Input Nama Karyawan" value="annisa" required>
+            placeholder="Input Nama Karyawan"  required>
         </div>
         <div class="form-group">
           <label for="banyak_gaji">Banyak Gaji</label>

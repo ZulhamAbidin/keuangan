@@ -31,7 +31,6 @@ if (isset($_GET['id_penggajian'])) {
         // Mengkonversi tipe data dan panjang karakter pada kolom yang berbeda
         // $gaji = (float)str_replace('.', '', str_replace('Rp', '', $_POST['banyak_gaji']));
         
-        
         $keterangan = substr($keterangan, 0, 50); // Sesuaikan panjang karakter yang sesuai
 
         $updateQuery1 = "UPDATE data_penggajian SET nip = '$nip', tanggal_gaji = '$tggl', nama_karyawan = '$nama', banyak_gaji = '$gaji', gambar = '$gambarPath' WHERE id_penggajian = '$id'";
