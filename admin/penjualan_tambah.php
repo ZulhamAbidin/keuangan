@@ -2,17 +2,61 @@
 include 'src/header.php';
 
 if(isset($_POST['simpan'])){
-  $tggl  = date('Y-m-d', strtotime($_POST['tanggal_jual']));
-  $nma   = $_POST['nama_barang'];
-  $jml   = $_POST['jumlah_jual'];
-  $ket   = "Transaksi Penjualan ".$nma;
+    $tggl  = date('Y-m-d', strtotime($_POST['tanggal_jual']));
+    $nma   = $_POST['nama_barang'];
+    $jml   = $_POST['jumlah_jual'];
+    $ket   = "Transaksi Penjualan ".$nma;
 
-  $simpan = mysqli_query($koneksi, "INSERT INTO data_penjualan VALUES('','$tggl','$nma','$jml')");
-  $simpan = mysqli_query($koneksi, "INSERT INTO data_masuk VALUES('','$tggl','$jml','$ket')");
-  echo "<script>alert('Data Berhasil Di Simpan');window.location='data_penjualan.php'</script>";
+    // Mengelola pengunggahan gambar
+    $gambar = $_FILES['gambar']['name'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+    $folder = 'gambar/data_penjualan/';
 
+    // Jika ada gambar baru diunggah
+    if (!empty($gambar)) {
+        $gambarPath = $folder . $gambar;
+        move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'].'/program_uang/admin/'.$gambarPath);
+    } else {
+        // Jika tidak ada gambar baru diunggah, atur nilai gambarPath menjadi NULL atau sesuai kebutuhan
+        $gambarPath = NULL;
+    }
+
+    // Query untuk menyimpan data
+    $simpanPenjualan = mysqli_query($koneksi, "INSERT INTO data_penjualan (tanggal_jual, nama_barang, jumlah_jual, gambar) VALUES ('$tggl', '$nma', '$jml', '$gambarPath')");
+    $simpanMasuk = mysqli_query($koneksi, "INSERT INTO data_masuk (tanggal_masuk, jumlah_masuk, keterangan, gambar) VALUES ('$tggl', '$jml', '$ket', '$gambarPath')");
+
+    if ($simpanPenjualan && $simpanMasuk) {
+    echo "<script>
+            Swal.fire({
+              title: 'Data Berhasil Disimpan',
+              icon: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location='data_penggajian.php';
+              }
+            });
+          </script>";
+    exit; 
+  } else {
+    echo "<script>
+            Swal.fire({
+              title: 'Gagal Menyimpan Data',
+              text: 'Terjadi kesalahan saat menyimpan data.',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            });
+          </script>";
+    exit; 
+  }
 }
 ?>
+
+
     <!-- Main content -->
     <section class="content">
 
@@ -27,7 +71,12 @@ if(isset($_POST['simpan'])){
           </div>
         </div>
         <div class="box-body">
-          <form action="" method="POST">
+           <form action="" method="POST" enctype="multipart/form-data">
+                <!-- ... (bagian yang tidak diubah) ... -->
+                <div class="form-group">
+                    <label class="form-control-label" for="gambar">Gambar</label>
+                    <input type="file" class="form-control" name="gambar" accept="image/*">
+                </div>
             <div class="form-group">
               <label class="form-control-label" for="tanggal_jual">Tanggal Penjualan</label>
               <input type="date" class="form-control" name="tanggal_jual" autocomplete="off" required>

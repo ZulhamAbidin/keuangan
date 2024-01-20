@@ -1,4 +1,8 @@
-<?php include 'src/header.php'; ?>
+<?php
+include 'src/header.php';
+
+?>
+
 
 <div class="container">
 
@@ -30,48 +34,61 @@
     </div>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-bordered table-striped" id="example1" width="100%">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tanggal</th>
-              <th>Jumlah Pengeluaran</th>
-              <th>Keterangan</th>
-              <th>Gambar</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $no = 1;
-            $query = mysqli_query($koneksi, "SELECT * FROM data_keluar");
-            while ($data = mysqli_fetch_array($query)) {
-            ?>
-              <tr>
-                <td><?= $no++ ?></td>
-                <td><?= $data['tanggal_keluar'] ?></td>
-                <td><?= "Rp. " . number_format($data['jumlah']) ?></td>
-                <td><?= $data['keterangan'] ?></td>
-                <td>
-                  <button class="btn btn-primary" onclick="tampilkanGambar('<?php echo $data['gambar']; ?>')">
-                    <i class="fe fe-eye"></i>
-                  </button>
-                </td>
-                <td>
-                  <a href="keluar_edit.php?id_keluar=<?php echo $data['id_keluar']; ?>" class='btn btn-primary btn-sm'>
-                    <span aria-hidden="true"></span>Edit
-                  </a>
-                  <a href="#" class="btn btn-sm btn-danger shadow-sm"
-                    onclick="showDeleteAlertKeluar('<?php echo $data['id_keluar']; ?>')">
-                    <span aria-hidden="true"></span>Hapus
-                  </a>
-                </td>
-              </tr>
-            <?php } ?>
-          </tbody>
-        </table>
-      </div>
+  <table class="table table-bordered table-striped" id="example1" width="100%">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Tanggal</th>
+        <th>Jumlah Pengeluaran</th>
+        <th>Keterangan</th>
+        <th>Gambar</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $no = 1;
+      $query = mysqli_query($koneksi, "SELECT * FROM data_keluar");
+      while ($data = mysqli_fetch_array($query)) {
+        // Pengecekan dan inisialisasi variabel edit di dalam loop
+        $edit_url = '';
+        $edit_label = '';
+
+        if (!empty($data['id_penggajian'])) {
+          $id_penggajian = $data['id_penggajian'];
+          $edit_url = "penggajian_edit.php?id_penggajian=$id_penggajian";
+          $edit_label = "Edit";
+        } else {
+          $id_keluar = $data['id_keluar'];
+          $edit_url = "keluar_edit.php?id_keluar=$id_keluar";
+          $edit_label = "Edit";
+        }
+      ?>
+        <tr>
+          <td><?= $no++ ?></td>
+          <td><?= $data['tanggal_keluar'] ?></td>
+          <td><?= $data['jumlah'] ?></td>
+          <td><?= $data['keterangan'] ?></td>
+          <td>
+            <button class="btn btn-primary" onclick="tampilkanGambar('<?php echo $data['gambar']; ?>')">
+              <i class="fe fe-eye"></i>
+            </button>
+          </td>
+          <td>
+            <a href="<?= $edit_url; ?>" class='btn btn-primary btn-sm'>
+              <span aria-hidden="true"></span><?= $edit_label; ?>
+            </a>
+            <a href="#" class="btn btn-sm btn-danger shadow-sm" onclick="showDeleteAlertKeluar('<?php echo $data['id_keluar']; ?>')">
+              <span aria-hidden="true"></span>Hapus
+            </a>
+          </td>
+        </tr>
+      <?php } ?>
+    </tbody>
+  </table>
+</div>
     </div>
+    
   </div>
 
 </div>

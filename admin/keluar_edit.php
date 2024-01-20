@@ -1,55 +1,85 @@
 <?php
 include 'src/header.php';
 
-if(isset($_POST['simpan'])){
-  $tggl  = date('Y-m-d', strtotime($_POST['tanggal_keluar']));
-  $jml   = $_POST['jumlah'];
-  $ket   = $_POST['keterangan'];
+if (isset($_GET['id_keluar'])) {
+    $id = $_GET['id_keluar'];
 
-  $gambar = $_FILES['gambar']['name'];
-  $tmpName = $_FILES['gambar']['tmp_name'];
-  $folder = 'gambar/data_keluar/';
+    $query = mysqli_query($koneksi, "SELECT * FROM data_keluar WHERE id_keluar = '$id'");
+    $data  = mysqli_fetch_array($query);
 
-  if (!empty($gambar)) {
-    $gambarPath = $folder . $gambar;
-    move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
-  } else {
-    $gambarPath = $data['gambar']; 
-  }
+    if (isset($_POST['simpan'])) {
+        $tggl  = date('Y-m-d', strtotime($_POST['tanggal_keluar']));
+        $jml   = mysqli_real_escape_string($koneksi, $_POST['jumlah']);
+        $ket   = mysqli_real_escape_string($koneksi, $_POST['keterangan']);
 
-  $simpan1 = mysqli_query($koneksi, "UPDATE data_keluar SET tanggal_keluar = '$tggl', jumlah = '$jml', keterangan = '$ket', gambar = '$gambarPath' WHERE id_keluar = '$_GET[id_keluar]'");
+        // Mengelola pengunggahan gambar
+        $gambar = $_FILES['gambar']['name'];
+        $tmpName = $_FILES['gambar']['tmp_name'];
+        $folder = 'gambar/data_keluar/';
 
-  if ($simpan1) {
-    echo "<script>
-            Swal.fire({
-              title: 'Data Berhasil Disimpan',
-              icon: 'success',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location='data_keluar.php';
-              }
-            });
-          </script>";
-    exit; 
-  } else {
-    echo "<script>
-            Swal.fire({
-              title: 'Gagal Menyimpan Data',
-              text: 'Terjadi kesalahan saat menyimpan data: " . mysqli_error($koneksi) . "',
-              icon: 'error',
-              showCancelButton: false,
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK'
-            });
-          </script>";
-    exit; 
-  }
+        // Memeriksa apakah ada gambar baru diunggah
+        if (!empty($gambar)) {
+            // Jika ada gambar baru diunggah
+            $gambarPath = $folder . $gambar;
+            move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
+        } else {
+            // Jika tidak ada gambar baru diunggah, gunakan gambar lama
+            $gambarPath = $data['gambar'];
+        }
+
+        $updateQuery = "UPDATE data_keluar SET tanggal_keluar = '$tggl', jumlah = '$jml', keterangan = '$ket', gambar = '$gambarPath' WHERE id_keluar = '$id'";
+        $simpan1 = mysqli_query($koneksi, $updateQuery);
+
+        if ($simpan1) {
+            echo "<script>
+                    Swal.fire({
+                      title: 'Data Berhasil Disimpan',
+                      icon: 'success',
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      confirmButtonText: 'OK'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        window.location='data_keluar.php';
+                      }
+                    });
+                  </script>";
+            exit;
+        } else {
+            echo "<script>
+                    Swal.fire({
+                      title: 'Gagal Menyimpan Data',
+                      text: 'Terjadi kesalahan saat menyimpan data: " . mysqli_error($koneksi) . "',
+                      icon: 'error',
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      confirmButtonText: 'OK'
+                    });
+                  </script>";
+            exit;
+        }
+    }
+} else {
+    echo "Parameter 'id_keluar' tidak valid atau tidak ada.";
+}
+?>
+
+
+
+<script>
+function formatRupiah(angka) {
+  var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  return 'Rp.' + ribuan;
 }
 
-?>
+function updateFormat() {
+  var gajiInput = document.getElementById('format');
+  var gajiValue = gajiInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
+  gajiInput.value = formatRupiah(gajiValue);
+}
+</script>
 
 <div class="container">
   <div class="page-header">
@@ -78,7 +108,7 @@ if(isset($_POST['simpan'])){
         </div>
         <div class="form-group">
           <label class="form-control-label" for="jumlah">Jumlah Pengeluaran (Rp)</label>
-          <input type="text" class="form-control" name="jumlah" autocomplete="off" value="<?= $data['jumlah'] ?>" placeholder="Input Jumlah Pengeluaran (Rp)" required>
+          <input type="text" class="form-control" name="jumlah" autocomplete="off" value="<?= $data['jumlah'] ?>" placeholder="Input Jumlah Pengeluaran (Rp)" oninput="updateFormat()" id="format"  required> 
         </div>
         <div class="form-group">
           <label class="form-control-label" for="keterangan">Keterangan</label>

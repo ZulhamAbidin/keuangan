@@ -87,7 +87,7 @@ $totalPemasukan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah_m
 											<td><?php echo $no; ?></td>
 											<td><?php echo date('d F Y', strtotime($item['tanggal_masuk'])); ?></td>
 											<td><?php echo $item['keterangan']; ?></td>
-											<td>Rp. <?= number_format($item['jumlah_masuk'], 0, ',', '.'); ?></td>
+											<td><?php echo $item['jumlahMasuk']; ?></td>
 										</tr>
 									<?php
 										$no++;
@@ -95,7 +95,7 @@ $totalPemasukan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah_m
 									?>
 									<tr>
 										<td colspan="3">Total Pemasukan</td>
-										<td><?php echo 'Rp. ' . number_format($totalPemasukan['jumlahMasuk']); ?></td>
+										<td><?php echo $item['jumlahMasuk']; ?></td>
 									</tr>
 								</tbody>
 							</table>

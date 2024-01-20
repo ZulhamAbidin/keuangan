@@ -1,18 +1,70 @@
 <?php
 include 'src/header.php';
 
-if(isset($_POST['simpan'])){
-  $tggl  = date('Y-m-d', strtotime($_POST['tanggal_jual']));
-  $nma   = $_POST['nama_barang'];
-  $jml   = $_POST['jumlah_jual'];
+if (isset($_POST['simpan'])) {
+    $tggl = date('Y-m-d', strtotime($_POST['tanggal_jual']));
+    $nma = $_POST['nama_barang'];
+    $jml = $_POST['jumlah_jual'];
 
-  $simpan1 = mysqli_query($koneksi, "UPDATE data_penjualan SET tanggal_jual = '$tggl', nama_barang = '$nma', jumlah_jual = '$jml' WHERE id_penjualan = '$_GET[id_penjualan]'");
+    // Mendapatkan data gambar lama dari database
+    $id = $_GET['id_penjualan'];
+    $query = mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE id_penjualan = '$id'");
+    $data = mysqli_fetch_array($query);
+    $gambarLama = $data['gambar']; // Sesuaikan dengan nama kolom yang menyimpan path gambar di tabel
 
-  $simpan2 = mysqli_query($koneksi, "UPDATE data_masuk SET tanggal_masuk = '$tggl', jumlah_masuk = '$jml' WHERE id_masuk = '$_GET[id_penjualan]'");
-  echo "<script>alert('Data Berhasil Di Simpan');window.location='data_penjualan.php'</script>";
+    // Mengelola pengunggahan gambar
+    $gambar = $_FILES['gambar']['name'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+    $folder = 'gambar/data_penjualan/';
 
+    // Memeriksa apakah ada gambar baru diunggah
+    if (!empty($gambar)) {
+        // Jika ada gambar baru diunggah
+        $gambarPath = $folder . $gambar;
+        move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
+    } else {
+        // Jika tidak ada gambar baru diunggah, gunakan gambar lama
+        $gambarPath = $gambarLama;
+    }
+
+    // Query untuk menyimpan data
+    $simpan1 = mysqli_query($koneksi, "UPDATE data_penjualan SET tanggal_jual = '$tggl', nama_barang = '$nma', jumlah_jual = '$jml', gambar = '$gambarPath' WHERE id_penjualan = '$_GET[id_penjualan]'");
+    $simpan2 = mysqli_query($koneksi, "UPDATE data_masuk SET tanggal_masuk = '$tggl', jumlah_masuk = '$jml' WHERE id_masuk = '$_GET[id_penjualan]'");
+
+     if ($simpan1 && $simpan2) {
+        echo "<script>
+                Swal.fire({
+                  title: 'Data Berhasil Disimpan',
+                  icon: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'OK'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location='data_penjualan.php';
+                  }
+                });
+              </script>";
+        exit; 
+      } else {
+        echo "<script>
+                Swal.fire({
+                  title: 'Gagal Menyimpan Data',
+                  text: 'Terjadi kesalahan saat menyimpan data.',
+                  icon: 'error',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'OK'
+                });
+              </script>";
+        exit; 
+      }
 }
+
 ?>
+
+
+
     <!-- Main content -->
     <section class="content">
 
@@ -31,11 +83,12 @@ if(isset($_POST['simpan'])){
           $query = mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE id_penjualan = '$id'");
           $data  = mysqli_fetch_array($query);
           ?>
-          <form action="" method="POST">
-            <div class="form-group">
-              <label class="form-control-label" for="tanggal_jual">Tanggal Penjualan</label>
-              <input type="date" class="form-control" name="tanggal_jual" value="<?= $data['tanggal_jual'] ?>" autocomplete="off" required>
-            </div>
+          <form action="" method="POST" enctype="multipart/form-data">
+                <!-- ... (bagian yang tidak diubah) ... -->
+                <div class="form-group">
+                    <label class="form-control-label" for="gambar">Gambar</label>
+                    <input type="file" class="form-control" name="gambar" accept="image/*">
+                </div>
             <div class="form-group">
               <label class="form-control-label" for="nama_barang">Nama Makanan</label>
               <input type="text" class="form-control" name="nama_barang" value="<?= $data['nama_barang'] ?>" placeholder="Masukan Nama Barang" autocomplete="off" required>

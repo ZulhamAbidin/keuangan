@@ -12,15 +12,19 @@ if (isset($_GET['id_masuk'])) {
         $jml   = mysqli_real_escape_string($koneksi, $_POST['jumlah_masuk']);
         $ket   = mysqli_real_escape_string($koneksi, $_POST['keterangan']);
 
+        // Mengelola pengunggahan gambar
         $gambar = $_FILES['gambar']['name'];
         $tmpName = $_FILES['gambar']['tmp_name'];
         $folder = 'gambar/data_masuk/';
 
+        // Memeriksa apakah ada gambar baru diunggah
         if (!empty($gambar)) {
+            // Jika ada gambar baru diunggah
             $gambarPath = $folder . $gambar;
             move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
         } else {
-            $gambarPath = $data['gambar']; 
+            // Jika tidak ada gambar baru diunggah, gunakan gambar lama
+            $gambarPath = $data['gambar'];
         }
 
         $updateQuery = "UPDATE data_masuk SET tanggal_masuk = '$tggl', jumlah_masuk = '$jml', keterangan = '$ket', gambar = '$gambarPath' WHERE id_masuk = '$id'";

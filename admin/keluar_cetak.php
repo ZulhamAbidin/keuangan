@@ -65,6 +65,7 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
                         </div>
                     </div>
                     <div class="card-body">
+						
                         <?php include('header.php'); ?>
                         <div class="table-responsive push">
                             <table id="laporanTable" class="table table-bordered">
@@ -77,25 +78,31 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($data as $item) {
-                                    ?>
-                                        <tr>
-                                            <td><?= $no; ?></td>
-                                            <td><?= $item['keterangan']; ?></td>
-                                            <td><?= $item['tanggal_keluar']; ?></td>
-                                            <td>Rp. <?= number_format($item['jumlah'], 0, ',', '.'); ?></td>
-                                        </tr>
-                                    <?php
-                                        $no++;
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td colspan="3">Total Pengeluaran</td>
-                                        <td>Rp. <?= number_format($totalPengeluaran['jumlahPengeluaran'], 0, ',', '.'); ?></td>
-                                    </tr>
-                                </tbody>
+									<?php
+									$no = 1;
+									$totalPengeluaran = 0; // Inisialisasi variabel total
+
+									foreach ($data as $item) {
+										// Mengonversi string "Rp" dan pisahkan ribuan
+										$jumlahPengeluaran = (int) str_replace(['Rp', '.'], '', $item['jumlah']);
+										$totalPengeluaran += $jumlahPengeluaran; // Menambahkan jumlah pengeluaran pada variabel total
+
+										?>
+										<tr>
+											<td><?= $no; ?></td>
+											<td><?= $item['keterangan']; ?></td>
+											<td><?= $item['tanggal_keluar']; ?></td>
+											<td><?= number_format($jumlahPengeluaran); ?></td>
+										</tr>
+										<?php
+										$no++;
+									}
+									?>
+									<tr>
+										<td colspan="3">Total Pengeluaran</td>
+										<td><?= number_format($totalPengeluaran); ?></td>
+									</tr>
+								</tbody>
                             </table>
                         </div>
                     </div>

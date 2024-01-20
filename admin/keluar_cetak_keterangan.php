@@ -80,25 +80,32 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($data as $item) {
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $no; ?></td>
-                                            <td><?php echo $item['tanggal_keluar']; ?></td>
-                                            <td><?php echo $item['keterangan']; ?></td>
-                                            <td>Rp. <?= number_format($item['jumlah'], 0, ',', '.'); ?></td>
-                                        </tr>
-                                    <?php
-                                        $no++;
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td colspan="3">Total Pengeluaran</td>
-                                        <td><?php echo 'Rp. ' . number_format($totalPengeluaran['jumlahPengeluaran']); ?></td>
-                                    </tr>
-                                </tbody>
+    <?php
+    $no = 1;
+    $totalPengeluaran = 0; // Inisialisasi variabel total
+
+    foreach ($data as $item) {
+        // Mengonversi string "Rp" dan pisahkan ribuan
+        $jumlahPengeluaran = (int) str_replace(['Rp', '.'], '', $item['jumlah']);
+        $totalPengeluaran += $jumlahPengeluaran; // Menambahkan jumlah pengeluaran pada variabel total
+
+        ?>
+        <tr>
+            <td><?php echo $no; ?></td>
+            <td><?php echo $item['tanggal_keluar']; ?></td>
+            <td><?php echo $item['keterangan']; ?></td>
+            <td><?php echo $item['jumlah']; ?></td>
+        </tr>
+        <?php
+        $no++;
+    }
+    ?>
+    <tr>
+        <td colspan="3">Total Pengeluaran</td>
+        <td><?php echo number_format($totalPengeluaran); ?></td>
+    </tr>
+</tbody>
+
                             </table>
                         </div>
                     </div>

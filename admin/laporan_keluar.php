@@ -110,7 +110,7 @@
                                 <td><?= $no++ ?></td>
                                 <td><?= $data['tanggal_keluar'] ?></td>
                                 <td><?= $data['keterangan'] ?></td>
-                                <td><?= "Rp. " . number_format($data['jumlah']) ?></td>
+                                <td><?= $data['jumlah'] ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

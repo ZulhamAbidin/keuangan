@@ -81,14 +81,14 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 										<td><?= $row['nip'] ?></td>
 										<td><?= $row['tanggal_gaji'] ?></td>
 										<td><?= $row['nama_karyawan'] ?></td>
-										<td>Rp. <?= number_format($row['banyak_gaji'], 0, ',', '.') ?></td>
+										<td><?= $row['banyak_gaji']; ?></td>
 									</tr>
 									<?php endforeach; ?>
 								</tbody>
 								<tfoot>
 									<tr>
-										<th colspan="3">Total Penggajian</th>
-										<th>Rp. <?= $totalGaji ?></th>
+										<td colspan="3">Total Penggajian</td>
+										<td><?= $row['banyak_gaji']; ?></td>
 									</tr>
 								</tfoot>
 							</table>

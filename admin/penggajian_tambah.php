@@ -7,15 +7,38 @@ if(isset($_POST['simpan'])){
   $nama  = $_POST['nama_karyawan'];
   $gaji  = $_POST['banyak_gaji'];
 
+  // Mengelola pengunggahan gambar
   $gambarFolder = 'gambar/data_penggajian/';
   $gambarNama   = $_FILES['gambar']['name'];
   $gambarPath   = $gambarFolder . $gambarNama;
 
-  move_uploaded_file($_FILES['gambar']['tmp_name'], $gambarPath);
+  move_uploaded_file($_FILES['gambar']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
 
+  $keterangan = "Penggajian Karyawan: $nama"; // Sesuaikan keterangan sesuai kebutuhan
+
+  // Validasi: Pastikan semua data yang dibutuhkan terisi
+  if (empty($tggl) || empty($nip) || empty($nama) || empty($gaji) || empty($gambarNama)) {
+    echo "<script>
+            Swal.fire({
+              title: 'Gagal Menyimpan Data',
+              text: 'Mohon lengkapi semua field.',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            });
+          </script>";
+    exit;
+  }
+
+  // Simpan data ke dalam tabel data_penggajian
   $simpan = mysqli_query($koneksi, "INSERT INTO data_penggajian (nip, tanggal_gaji, nama_karyawan, banyak_gaji, gambar) VALUES ('$nip', '$tggl', '$nama', '$gaji', '$gambarPath')");
 
-  $simpanKeluar = mysqli_query($koneksi, "INSERT INTO data_keluar VALUES('', '$tggl', '$gaji', 'Penggajian Karyawan')");
+  // Ambil ID terakhir yang di-generate oleh AUTO_INCREMENT
+  $lastId = mysqli_insert_id($koneksi);
+
+  // Simpan data ke dalam tabel data_keluar
+  $simpanKeluar = mysqli_query($koneksi, "INSERT INTO data_keluar (id_penggajian, tanggal_keluar, jumlah, keterangan, gambar) VALUES ('$lastId', '$tggl', '$gaji', '$keterangan', '$gambarPath')");
   
   if ($simpan && $simpanKeluar) {
     echo "<script>
@@ -48,6 +71,21 @@ if(isset($_POST['simpan'])){
 }
 ?>
 
+<script>
+function formatRupiah(angka) {
+  var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  return 'Rp.' + ribuan;
+}
+
+function updateFormat() {
+  var gajiInput = document.getElementById('format');
+  var gajiValue = gajiInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
+  gajiInput.value = formatRupiah(gajiValue);
+}
+</script>
+
 <div class="container">
   <div class="page-header">
     <h1 class="page-title">Penggajian</h1>
@@ -71,21 +109,21 @@ if(isset($_POST['simpan'])){
         <div class="form-group">
           <label for="nip">NIP Karyawan</label>
           <input type="text" class="form-control" name="nip" autocomplete="off" placeholder="Input NIP Karyawan"
-            required>
+            value="1929042001" required>
         </div>
         <div class="form-group">
           <label for="nama_karyawan">Nama Karyawan</label>
           <input type="text" class="form-control" name="nama_karyawan" autocomplete="off"
-            placeholder="Input Nama Karyawan" required>
+            placeholder="Input Nama Karyawan" value="annisa" required>
         </div>
         <div class="form-group">
           <label for="banyak_gaji">Banyak Gaji</label>
-          <input type="text" class="form-control" name="banyak_gaji" autocomplete="off"
+          <input type="text" class="form-control" name="banyak_gaji" autocomplete="off" oninput="updateFormat()" id="format"
             placeholder="Input Gaji Karyawan" required>
         </div>
         <div class="form-group">
           <label for="nip">Gambar</label>
-          <input type="file" class="form-control" name="gambar" accept="image/*"  autocomplete="off" required>
+          <input type="file" class="form-control" name="gambar" accept="image/*" autocomplete="off" required>
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn btn-primary" name="simpan">
