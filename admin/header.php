@@ -12,3 +12,10 @@
         </div>
     </div>
 </div>
+
+    <script>
+        window.addEventListener('load', function () {
+            window.print();
+        });
+    </script>
+

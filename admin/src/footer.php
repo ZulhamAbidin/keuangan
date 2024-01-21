@@ -132,6 +132,13 @@
     <!-- CUSTOM JS -->
     <script src="../sash/js/custom.js"></script>
 
+     <!-- CHART-CIRCLE JS-->
+    <script src="../sash/js/circle-progress.min.js"></script>
+
+    <!-- PIETY CHART JS-->
+    <script src="../sash/plugins/peitychart/jquery.peity.min.js"></script>
+    <script src="../sash/plugins/peitychart/peitychart.init.js"></script>
+
 
 </body>
 
