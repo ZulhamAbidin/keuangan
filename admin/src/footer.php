@@ -76,66 +76,33 @@
     <script src="../sash/js/jquery.sparkline.min.js"></script>
     <script src="../sash/js/sticky.js"></script>
     <script src="../sash/js/circle-progress.min.js"></script>
-
-    <!-- PIETY CHART JS-->
     <script src="../sash/plugins/peitychart/jquery.peity.min.js"></script>
     <script src="../sash/plugins/peitychart/peitychart.init.js"></script>
-
-    <!-- SIDEBAR JS -->
     <script src="../sash/plugins/sidebar/sidebar.js"></script>
-
-    <!-- Perfect SCROLLBAR JS-->
     <script src="../sash/plugins/p-scroll/perfect-scrollbar.js"></script>
     <script src="../sash/plugins/p-scroll/pscroll.js"></script>
     <script src="../sash/plugins/p-scroll/pscroll-1.js"></script>
-
-    <!-- INTERNAL CHARTJS CHART JS-->
     <script src="../sash/plugins/chart/Chart.bundle.js"></script>
     <script src="../sash/plugins/chart/rounded-barchart.js"></script>
     <script src="../sash/plugins/chart/utils.js"></script>
-
-    <!-- INTERNAL SELECT2 JS -->
     <script src="../sash/plugins/select2/select2.full.min.js"></script>
-
-    <!-- INTERNAL Data tables js-->
     <script src="../sash/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="../sash/plugins/datatable/js/dataTables.bootstrap5.js"></script>
     <script src="../sash/plugins/datatable/dataTables.responsive.min.js"></script>
-
-    <!-- INTERNAL APEXCHART JS -->
     <script src="../sash/js/apexcharts.js"></script>
     <script src="../sash/plugins/apexchart/irregular-data-series.js"></script>
-
-    <!-- INTERNAL Flot JS -->
     <script src="../sash/plugins/flot/jquery.flot.js"></script>
     <script src="../sash/plugins/flot/jquery.flot.fillbetween.js"></script>
     <script src="../sash/plugins/flot/chart.flot.sampledata.js"></script>
-    <script src="../sash/plugins/flot/dashboard.sampledata.js"></script>
-
-    <!-- INTERNAL Vector js -->
     <script src="../sash/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="../sash/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-
-    <!-- SIDE-MENU JS-->
     <script src="../sash/plugins/sidemenu/sidemenu.js"></script>
-
-    <!-- TypeHead js -->
     <script src="../sash/plugins/bootstrap5-typehead/autocomplete.js"></script>
     <script src="../sash/js/typehead.js"></script>
-
-    <!-- INTERNAL INDEX JS -->
     <script src="../sash/js/index1.js"></script>
-
-    <!-- Color Theme js -->
     <script src="../sash/js/themeColors.js"></script>
-
-    <!-- CUSTOM JS -->
     <script src="../sash/js/custom.js"></script>
-
-     <!-- CHART-CIRCLE JS-->
     <script src="../sash/js/circle-progress.min.js"></script>
-
-    <!-- PIETY CHART JS-->
     <script src="../sash/plugins/peitychart/jquery.peity.min.js"></script>
     <script src="../sash/plugins/peitychart/peitychart.init.js"></script>
 
