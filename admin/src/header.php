@@ -22,9 +22,9 @@ $dt     = mysqli_fetch_array($ambil);
     <meta name="description" content="Sash – Bootstrap 5  Admin & Dashboard Template">
     <meta name="author" content="Spruko Technologies Private Limited">
     <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
-    <link rel="shortcut icon" type="image/x-icon" href="../sash/images/brand/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="../sash/images/brand/logo-2.png" />
     <title>Keuangan </title>
-     <link id="style" href="../sash/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="style" href="../sash/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="../sash/css/style.css" rel="stylesheet" />
     <link href="../sash/css/dark-style.css" rel="stylesheet" />
@@ -139,6 +139,7 @@ $dt     = mysqli_fetch_array($ambil);
                             <img src="../sash/images/brand/logo-1.png" class="header-brand-img toggle-logo" alt="logo">
                             <img src="../sash/images/brand/logo-2.png" class="header-brand-img light-logo" alt="logo">
                             <img src="../sash/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo">
+                            <!-- header -->
                         </a>
                         <!-- LOGO -->
                     </div>

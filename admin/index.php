@@ -84,33 +84,8 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
-            <div class="row text-white"> 
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden bg-info" style="background-color : #34C38F !important"> <!-- Ganti bg-info sesuai warna yang diinginkan -->
-                        <div class="card-body">
-                            <h6 class="">Penjualan/Tahun</h6>
-                            <?php
-                            $query = mysqli_query($koneksi, "SELECT sum(jumlah_jual) as JumlahJual FROM data_penjualan WHERE year(tanggal_jual) = '$dataTahunJual[MaxJual]'");
-                            $data  = mysqli_fetch_array($query);
-                            ?>
-                            <h5 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahJual']) ?></h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden bg-success" style="background-color : #F76D57 !important"> <!-- Ganti bg-success sesuai warna yang diinginkan -->
-                        <div class="card-body">
-                            <h6 class="">Penggajian/Tahun</h6>
-                            <?php
-                            $query = mysqli_query($koneksi, "SELECT sum(banyak_gaji) as JumlahGaji FROM data_penggajian WHERE year(tanggal_gaji) = '$dataTahunGaji[MaxGaji]'");
-                            $data  = mysqli_fetch_array($query);
-                            ?>
-                            <h5 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahGaji']) ?></h5>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="row text-white">
+                
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
                     <div class="card overflow-hidden" style="background-color : #6C5FFC !important"> <!-- Ganti bg-warning sesuai warna yang diinginkan -->
                         <div class="card-body">
@@ -119,7 +94,7 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
                             $query = mysqli_query($koneksi, "SELECT sum(jumlah_masuk) as JumlahMasuk FROM data_masuk WHERE year(tanggal_masuk) = '$dataTahunMasuk[MaxMasuk]'");
                             $data  = mysqli_fetch_array($query);
                             ?>
-                            <h5 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahMasuk']) ?></h5>
+                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahMasuk']) ?></h3>
                         </div>
                     </div>
                 </div>
@@ -132,7 +107,33 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
                             $query = mysqli_query($koneksi, "SELECT sum(jumlah) as JumlahKeluar FROM data_keluar WHERE year(tanggal_keluar) = '$dataTahunKeluar[MaxKeluar]'");
                             $data  = mysqli_fetch_array($query);
                             ?>
-                            <h5 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahKeluar']) ?></h5>
+                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahKeluar']) ?></h3>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                    <div class="card overflow-hidden bg-info" style="background-color : #34C38F !important"> <!-- Ganti bg-info sesuai warna yang diinginkan -->
+                        <div class="card-body">
+                            <h6 class="">Penjualan/Tahun</h6>
+                            <?php
+                            $query = mysqli_query($koneksi, "SELECT sum(jumlah_jual) as JumlahJual FROM data_penjualan WHERE year(tanggal_jual) = '$dataTahunJual[MaxJual]'");
+                            $data  = mysqli_fetch_array($query);
+                            ?>
+                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahJual']) ?></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                    <div class="card overflow-hidden bg-success" style="background-color : #F76D57 !important"> <!-- Ganti bg-success sesuai warna yang diinginkan -->
+                        <div class="card-body">
+                            <h6 class="">Penggajian/Tahun</h6>
+                            <?php
+                            $query = mysqli_query($koneksi, "SELECT sum(banyak_gaji) as JumlahGaji FROM data_penggajian WHERE year(tanggal_gaji) = '$dataTahunGaji[MaxGaji]'");
+                            $data  = mysqli_fetch_array($query);
+                            ?>
+                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahGaji']) ?></h3>
                         </div>
                     </div>
                 </div>
@@ -149,6 +150,7 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -166,7 +168,7 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Total"],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                 datasets: [{
                     label: "Pemasukan",
                     data: <?= json_encode($dataMasukBulanan) ?>,

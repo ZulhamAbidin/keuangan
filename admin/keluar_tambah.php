@@ -3,7 +3,7 @@ include 'src/header.php';
 
 if(isset($_POST['simpan'])){
   $tggl  = date('Y-m-d', strtotime($_POST['tanggal_keluar']));
-  $jml   = $_POST['jumlah'];
+  $jml   = $_POST['jumlah_asli']; // Ambil nilai asli dari elemen tersembunyi
   $ket   = $_POST['keterangan'];
 
   // Proses gambar
@@ -53,15 +53,20 @@ if(isset($_POST['simpan'])){
 }
 ?>
 
-
-
-
 <script>
 function formatRupiah(angka) {
   var reverse = angka.toString().split('').reverse().join(''),
       ribuan = reverse.match(/\d{1,3}/g);
   ribuan = ribuan.join('.').split('').reverse().join('');
   return 'Rp.' + ribuan;
+}
+
+function updateHiddenValue() {
+    var gajiInput = document.getElementById('format');
+    var gajiValue = gajiInput.value.replace(/\D/g, '');
+    
+    // Simpan nilai asli ke elemen input tersembunyi
+    document.getElementById('jumlah_asli').value = gajiValue;
 }
 
 function updateFormat() {
@@ -92,8 +97,9 @@ function updateFormat() {
                     <input type="date" class="form-control" name="tanggal_keluar" autocomplete="off" required>
                 </div>
                 <div class="mb-3">
+                    <input type="hidden" name="jumlah_asli" id="jumlah_asli" />
                     <label for="jumlah" class="form-label">Jumlah Pengeluaran (Rp)</label>
-                    <input type="text" class="form-control" name="jumlah" autocomplete="off" placeholder="Input Jumlah Pengeluaran (Rp)"  oninput="updateFormat()" id="format" required>
+                    <input type="text" class="form-control" name="jumlah" autocomplete="off" placeholder="Input Jumlah Pengeluaran (Rp)" oninput="updateFormat(); updateHiddenValue();" id="format" required>
                 </div>
                 <div class="mb-3">
                     <label for="keterangan" class="form-label">Keterangan</label>
