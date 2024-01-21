@@ -1,4 +1,5 @@
 <?php
+
 session_start();
   if($_SESSION['login'] == ""){
     echo "<script>alert('Anda Harus Login Terlebih Dahulu');window.location='../index.php'</script>";
@@ -10,6 +11,7 @@ $ambil  = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE id_admin = '$_S
 $dt     = mysqli_fetch_array($ambil);
 
 ?>
+
 
 <!doctype html>
 <html lang="en" dir="ltr">
@@ -113,7 +115,7 @@ $dt     = mysqli_fetch_array($ambil);
                                                     <i class="dropdown-icon fe fe-user"></i> Profile
                                                 </a>
                                                 </a>
-                                                <a class="dropdown-item" href="logout.php">
+                                                <a class="dropdown-item" href="#"  onclick="confirmLogout()" >
                                                     <i class="dropdown-icon fe fe-alert-circle"></i> Sign out
                                                 </a>
                                             </div>
@@ -216,11 +218,11 @@ $dt     = mysqli_fetch_array($ambil);
                             </li>
 
                             <li>
-                                <a class="side-menu__item has-link" href="data_admin.php" target="_blank"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">Pengaturan</span></a>
+                                <a class="side-menu__item has-link" href="data_admin.php"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">Pengaturan</span></a>
                             </li>
 
                             <li>
-                                <a class="side-menu__item has-link" href="logout.php" target="_blank"><i class="side-menu__icon fe fe-toggle-left"></i><span class="side-menu__label">Logout</span></a>
+                                <a class="side-menu__item has-link" href="#"  onclick="confirmLogout()" ><i class="side-menu__icon fe fe-toggle-left"></i><span class="side-menu__label">Logout</span></a>
                             </li>
 
                             

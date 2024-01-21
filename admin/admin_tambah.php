@@ -1,59 +1,86 @@
 <?php
 include 'src/header.php';
 
-if(isset($_POST['simpan'])){
-  $nama  = $_POST['nama_admin'];
-  $user  = $_POST['username'];
-  $pass  = ($_POST['password']);
+$alertMessage = '';
+$namaValue = ''; 
+$usernameValue = '';
 
-  $simpan = mysqli_query($koneksi, "INSERT INTO data_admin VALUES('','$nama','$user','$pass')");
-  echo "<script>alert('Data Berhasil Di Simpan');window.location='data_admin.php'</script>";
+if (isset($_POST['simpan'])) {
+    $namaValue = $_POST['nama_admin'];
+    $usernameValue = $_POST['username'];
+    $pass = md5($_POST['password']); 
+    if (strlen($_POST['password']) < 6) {
+        $alertMessage = 'Password harus memiliki minimal 6 karakter';
+    } else {
+        $check_username = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE username='$usernameValue'");
+        if (mysqli_num_rows($check_username) > 0) {
+            $alertMessage = 'Username sudah digunakan';
+        } else {
+            $simpan = mysqli_query($koneksi, "INSERT INTO data_admin VALUES('', '$namaValue', '$usernameValue', '$pass')");
+            if ($simpan) {
+                $alertMessage = 'Data Berhasil Di Simpan';
 
+                echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: "' . $alertMessage . '",
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "OK"
+                        }).then(function() {
+                            window.location.href = "data_admin.php";
+                        });
+                      </script>';
+                exit;
+            } else {
+                $alertMessage = 'Gagal menyimpan data';
+            }
+        }
+    }
 }
 ?>
-    <!-- Main content -->
-    <section class="content">
 
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Tambah Data Admin</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"> <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"> <i class="fa fa-times"></i></button>
-          </div>
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Tambah Data Admin</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+            </ol>
         </div>
-        <div class="box-body">
-          <form action="" method="POST">
-            <div class="form-group">
-              <label class="form-control-label" for="nama_admin">Nama Admin</label>
-              <input type="text" class="form-control" name="nama_admin" autocomplete="off" placeholder="Input Nama Admin" required>
-            </div>
-            <div class="form-group">
-              <label class="form-control-label" for="username">Username</label>
-              <input type="text" class="form-control" id="username" name="username" autocomplete="off" placeholder="Input Username" required>
-            </div>
-            <div class="form-group">
-              <label class="form-control-label" for="password">Password</label>
-              <input type="text" class="form-control" id="password" name="password" autocomplete="off" placeholder="Input Password" required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>
-            </div>
-          </form>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Tambah Data Admin</h3>
         </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-        
+        <div class="card-body">
+            <form action="" method="POST">
+                <?php
+                if (!empty($alertMessage)) {
+                    echo '<div class="alert alert-danger" role="alert">' . $alertMessage . '</div>';
+                }
+                ?>
+                <div class="form-group">
+                    <label for="nama_admin">Nama Admin</label>
+                    <input type="text" class="form-control" name="nama_admin" value="<?= $namaValue ?>" autocomplete="off"
+                        placeholder="Input Nama Admin" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value="<?= $usernameValue ?>"
+                        autocomplete="off" placeholder="Input Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" autocomplete="off"
+                        placeholder="Input Password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class='btn btn-primary' name="simpan"><span aria-hidden="true"></span>Simpan</button>
+                </div>
+            </form>
         </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
+    </div>
+</div>
 <?php include 'src/footer.php'; ?>

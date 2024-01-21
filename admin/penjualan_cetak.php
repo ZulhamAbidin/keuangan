@@ -55,8 +55,8 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Tanggal</th>
                                         <th>Nama Barang</th>
+                                        <th>Tanggal</th>
                                         <th>Jumlah (Rp)</th>
                                     </tr>
                                 </thead>
@@ -73,8 +73,8 @@
                                     ?>
                                         <tr>
                                             <td><?= $no; ?></td>
-                                            <td><?= $lihat['tanggal_jual']; ?></td>
                                             <td><?= $lihat['nama_barang']; ?></td>
+                                            <td> <?= strftime('%e, %B, %Y', strtotime($lihat['tanggal_jual'])); ?></td>
                                             <td>Rp. <?= number_format($lihat['jumlah_jual']); ?></td>
                                         </tr>
                                     <?php

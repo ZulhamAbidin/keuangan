@@ -53,8 +53,8 @@
               <td><?= $data['nama_barang'] ?></td>
               <td><?= "Rp. ".number_format($data['jumlah_jual']) ?></td>
               <td>
-                <button class="btn btn-primary btn-sm" onclick="tampilkanGambar('<?php echo $data['gambar']; ?>')">
-                  <i class="fe fe-eye"></i> Lihat Gambar
+                <button class="btn btn-primary btn-md" onclick="tampilkanGambar('<?php echo $data['gambar']; ?>')">
+                  <i class="fe fe-eye"></i> 
                 </button>
               </td>
               <td>

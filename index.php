@@ -46,11 +46,11 @@ if(isset($_POST['login'])){
 
     <form action="" method="post">
       <div class="form-group has-feedback">
-        <input type="username" class="form-control" placeholder="Username" name="username" required>
+        <input type="username"  value="ZulhamAbidin" class="form-control" placeholder="Username" name="username" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name="password" required>
+        <input type="password" value="ZulhamAbidin" class="form-control" placeholder="Password" name="password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">

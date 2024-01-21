@@ -107,7 +107,7 @@
             ?>
             <tr>
               <td><?= $no++ ?></td>
-              <td><?= $data['tanggal_masuk'] ?></td>
+              <td><?= strftime('%e, %B, %Y', strtotime($data['tanggal_masuk'])); ?></td>
               <td><?= $data['keterangan'] ?></td>
               <td><?= "Rp. ".number_format($data['jumlah_masuk']) ?></td>
             </tr>

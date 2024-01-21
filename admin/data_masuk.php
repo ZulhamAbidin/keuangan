@@ -48,7 +48,9 @@
             ?>
             <tr>
               <td><?= $no++ ?></td>
-              <td><?= $data['keterangan'] ?></td>
+              <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;" title="<?= $data['keterangan'] ?>">
+                  <?= $data['keterangan'] ?>
+              </td>
               <td>
                 <?php
                   $tanggalGaji = $data['tanggal_masuk'];

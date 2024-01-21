@@ -56,8 +56,8 @@
 							  	<thead>
 							  		<tr>
 							  			<th>No</th>
-							  			<th>Tanggal</th>
 							  			<th>Keterangan</th>
+							  			<th>Tanggal</th>
 							  			<th>Pemasukan</th>
 							  		</tr>
 							  	</thead>
@@ -74,8 +74,8 @@
 										?>
 							  		<tr>
 							  			<td><?= $no; ?></td>
-							  			<td><?= $lihat['tanggal_masuk']; ?></td>
 							  			<td><?= $lihat['keterangan']; ?></td>
+							  			<td> <?= strftime('%e, %B, %Y', strtotime($lihat['tanggal_masuk'])); ?></td>
 							  			<td>Rp. <?= number_format($lihat['jumlah_masuk']); ?></td>
 							  		</tr>
 							  		<?php

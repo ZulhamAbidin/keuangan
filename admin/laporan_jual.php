@@ -66,7 +66,7 @@
                         ?>
                             <tr>
                                 <td><?= $no++ ?></td>
-                                <td><?= $data['tanggal_jual'] ?></td>
+                                <td> <?= strftime('%e, %B, %Y', strtotime($data['tanggal_jual'])); ?></td>
                                 <td><?= $data['nama_barang'] ?></td>
                                 <td><?= "Rp. " . number_format($data['jumlah_jual']) ?></td>
                             </tr>

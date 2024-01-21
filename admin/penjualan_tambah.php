@@ -4,7 +4,7 @@ include 'src/header.php';
 if(isset($_POST['simpan'])){
     $tggl  = date('Y-m-d', strtotime($_POST['tanggal_jual']));
     $nma   = $_POST['nama_barang'];
-    $jml   = $_POST['jumlah_jual'];
+    $jml   = preg_replace("/[^0-9]/", "", $_POST['jumlah_jual']); // Menghapus karakter non-digit
     $ket   = "Transaksi Penjualan ".$nma;
 
     // Mengelola pengunggahan gambar
@@ -62,6 +62,21 @@ if(isset($_POST['simpan'])){
 ?>
 
 
+
+<script>
+function formatRupiah(angka) {
+  var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  return 'Rp.' + ribuan;
+}
+
+function updateFormat() {
+  var gajiInput = document.getElementById('format');
+  var gajiValue = gajiInput.value.replace(/\D/g, '');
+  gajiInput.value = formatRupiah(gajiValue);
+}
+</script>
 <div class="container">
    <div class="page-header">
     <h1 class="page-title">Penjualan</h1>
@@ -80,7 +95,7 @@ if(isset($_POST['simpan'])){
       <form action="" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label class="form-control-label" for="gambar">Gambar</label>
-          <input type="file" class="form-control" name="gambar" accept="image/*">
+          <input type="file" class="form-control" name="gambar" accept="image/*" required>
         </div>
         <div class="form-group">
           <label class="form-control-label" for="tanggal_jual">Tanggal Penjualan</label>
@@ -92,7 +107,7 @@ if(isset($_POST['simpan'])){
         </div>
         <div class="form-group">
           <label class="form-control-label" for="jumlah_jual">Harga Jual(Rp)</label>
-          <input type="text" class="form-control" name="jumlah_jual" autocomplete="off" placeholder="Input Jumlah Penjualan (Rp)" required>
+          <input type="text" class="form-control" name="jumlah_jual" autocomplete="off" placeholder="Input Jumlah Penjualan (Rp)" oninput="updateFormat()" id="format" required>
         </div>
         <div class="form-group">
           <button type="submit" class='btn btn-primary btn-sm' name="simpan">Simpan
@@ -103,5 +118,6 @@ if(isset($_POST['simpan'])){
   </div>
 
 </div>
+
 
 <?php include 'src/footer.php'; ?>

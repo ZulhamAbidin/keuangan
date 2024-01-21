@@ -1,80 +1,25 @@
-<!-- <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>PENGELOLAHAN</b> KEUANGAN
-    </div>
-    <strong>Copyright &copy; 2022 <a href="index.php">PENGELOLAHAN</a>.</strong> KEUANGAN.
-</footer>
-        </form>
-      </div>
 
-    </div>
-  </aside>
-
-  <div class="control-sidebar-bg"></div>
-</div>
-
-<script src="../assets/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="../assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="../assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<script src="../assets/bower_components/fastclick/lib/fastclick.js"></script>
-<script src="../assets/dist/js/adminlte.min.js"></script>
-<script src="../assets/dist/js/demo.js"></script>
-<script>
-  $(document).ready(function () {
-    $('.sidebar-menu').tree()
-  })
-</script>
-<script>
-  $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable()
-    $('#example3').DataTable()
-    $('#example4').DataTable()
-    $('#example5').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-  })
-</script>
-</body>
-</html> -->
             
 
 
                     </div>
-                    <!-- CONTAINER END -->
                 </div>
             </div>
-            <!--app-content close-->
-
         </div>
 
 
-
-        <!-- FOOTER -->
         <footer class="footer">
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-md-12 col-sm-12 text-center">
-                        Copyright © <span id="year"></span> <a href="javascript:void(0)">Sash</a>. Designed with <span
-                            class="fa fa-heart text-danger"></span> by <a href="javascript:void(0)"> Spruko </a> All
+                        Copyright © <span id="year"></span> <a href="javascript:void(0)">Keuangan</a> All
                         rights reserved.
                     </div>
                 </div>
             </div>
         </footer>
-        <!-- FOOTER END -->
-
     </div>
 
-
-    <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
     <script>
         $(function () {
@@ -92,17 +37,27 @@
             })
         })
     </script>
-        <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Konfirmasi Logout',
+            text: 'Anda yakin ingin logout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "logout.php";
+            }
+        });
+    }
+</script>
 
-    <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
-
-    <!-- JQUERY JS -->
     <script src="../sash/js/jquery.min.js"></script>
-
-    <!-- DATA TABLE JS-->
     <script src="../sash/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="../sash/plugins/datatable/js/dataTables.bootstrap5.js"></script>
     <script src="../sash/plugins/datatable/js/dataTables.buttons.min.js"></script>
@@ -116,17 +71,10 @@
     <script src="../sash/plugins/datatable/dataTables.responsive.min.js"></script>
     <script src="../sash/plugins/datatable/responsive.bootstrap5.min.js"></script>
     <script src="../sash/js/table-data.js"></script>
-    <!-- BOOTSTRAP JS -->
     <script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
     <script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- SPARKLINE JS-->
     <script src="../sash/js/jquery.sparkline.min.js"></script>
-
-    <!-- Sticky js -->
     <script src="../sash/js/sticky.js"></script>
-
-    <!-- CHART-CIRCLE JS-->
     <script src="../sash/js/circle-progress.min.js"></script>
 
     <!-- PIETY CHART JS-->

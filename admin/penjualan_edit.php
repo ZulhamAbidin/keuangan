@@ -5,7 +5,8 @@ include 'src/header.php';
 if (isset($_POST['simpan'])) {
     $tggl = date('Y-m-d', strtotime($_POST['tanggal_jual']));
     $nma = $_POST['nama_barang'];
-    $jml = $_POST['jumlah_jual'];
+    $jml = $_POST['jumlah_jual_numeric'];
+    // $jml = $_POST['jumlah_jual'];
 
     // Mendapatkan data gambar lama dari database
     $id = $_GET['id_penjualan'];
@@ -78,6 +79,28 @@ if (isset($_POST['simpan'])) {
 }
 ?>
 
+
+<script>
+function formatRupiah(angka) {
+  var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  return 'Rp.' + ribuan;
+}
+
+function updateFormat() {
+  var jumlahJualInput = document.getElementById('format');
+  var jumlahJualValue = jumlahJualInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
+  jumlahJualInput.value = formatRupiah(jumlahJualValue);
+
+  // Tambahkan baris berikut untuk menyimpan nilai numerik ke input tersembunyi
+  var numericInput = document.getElementById('jumlah_jual_numeric');
+  numericInput.value = jumlahJualValue;
+}
+
+
+</script>
+
 <div class="container">
     <div class="page-header">
         <h1 class="page-title">Penjualan</h1>
@@ -108,9 +131,10 @@ if (isset($_POST['simpan'])) {
                     <label class="form-control-label" for="nama_barang">Nama Makanan</label>
                     <input type="text" class="form-control" name="nama_barang" value="<?= $data['nama_barang'] ?>" placeholder="Masukan Nama Barang" autocomplete="off" required>
                 </div>
+                <input type="hidden" name="jumlah_jual_numeric" id="jumlah_jual_numeric" value="<?= $data['jumlah_jual'] ?>">
                 <div class="form-group">
                     <label class="form-control-label" for="jumlah_jual">Harga Jual (Rp)</label>
-                    <input type="text" class="form-control" name="jumlah_jual" autocomplete="off" value="<?= $data['jumlah_jual'] ?>" placeholder="Input Jumlah Penjualan (Rp)" required>
+                    <input type="text" class="form-control" name="jumlah_jual" autocomplete="off" value="<?= $data['jumlah_jual'] ?>" placeholder="Input Jumlah Penjualan (Rp)"  oninput="updateFormat()" id="format" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>

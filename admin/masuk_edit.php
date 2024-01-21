@@ -9,7 +9,8 @@ if (isset($_GET['id_masuk'])) {
 
     if (isset($_POST['simpan'])) {
         $tggl  = date('Y-m-d', strtotime($_POST['tanggal_masuk']));
-        $jml   = mysqli_real_escape_string($koneksi, $_POST['jumlah_masuk']);
+        $jml   = mysqli_real_escape_string($koneksi, $_POST['jumlah_masuk_numeric']);
+
         $ket   = mysqli_real_escape_string($koneksi, $_POST['keterangan']);
 
         // Mengelola pengunggahan gambar
@@ -64,6 +65,27 @@ if (isset($_GET['id_masuk'])) {
 }
 ?>
 
+<script>
+function formatRupiah(angka) {
+  var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  return 'Rp.' + ribuan;
+}
+
+function updateFormat() {
+  var jumlahMasukInput = document.getElementById('format');
+  var jumlahMasukValue = jumlahMasukInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
+  jumlahMasukInput.value = formatRupiah(jumlahMasukValue);
+
+  // Tambahkan baris berikut untuk menyimpan nilai numerik ke input tersembunyi
+  var numericInput = document.getElementById('jumlah_masuk_numeric');
+  numericInput.value = jumlahMasukValue;
+}
+
+</script>
+
+
 <div class="container">
     <div class="page-header">
         <h1 class="page-title">Pemasukan</h1>
@@ -84,9 +106,10 @@ if (isset($_GET['id_masuk'])) {
                     <label for="tanggal_masuk" class="form-label">Tanggal</label>
                     <input type="date" class="form-control" name="tanggal_masuk" value="<?= $data['tanggal_masuk'] ?>" autocomplete="off" required>
                 </div>
+                <input type="hidden" name="jumlah_masuk_numeric" id="jumlah_masuk_numeric" value="<?= $data['jumlah_masuk'] ?>">
                 <div class="mb-3">
                     <label for="jumlah_masuk" class="form-label">Jumlah Pemasukan (Rp)</label>
-                    <input type="text" class="form-control" name="jumlah_masuk" autocomplete="off" value="<?= $data['jumlah_masuk'] ?>" placeholder="Input Jumlah Pemasukan (Rp)" required>
+                    <input type="text" class="form-control" name="jumlah_masuk" autocomplete="off" value="<?= $data['jumlah_masuk'] ?>" placeholder="Input Jumlah Pemasukan (Rp)" oninput="updateFormat()" id="format" required>
                 </div>
                 <div class="mb-3">
                     <label for="keterangan" class="form-label">Keterangan</label>

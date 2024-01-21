@@ -66,9 +66,12 @@ include 'src/header.php';
       ?>
         <tr>
           <td><?= $no++ ?></td>
-          <td><?= $data['tanggal_keluar'] ?></td>
-          <td><?= $data['jumlah'] ?></td>
-          <td><?= $data['keterangan'] ?></td>
+          <td> <?= strftime('%e, %B, %Y', strtotime($data['tanggal_keluar'])); ?></td>
+          <td> <?= "Rp. " . number_format($data['jumlah']) ?></td>
+          <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;" title="<?= $data['keterangan'] ?>">
+              <?= $data['keterangan'] ?>
+          </td>
+
           <td>
             <button class="btn btn-primary" onclick="tampilkanGambar('<?php echo $data['gambar']; ?>')">
               <i class="fe fe-eye"></i>

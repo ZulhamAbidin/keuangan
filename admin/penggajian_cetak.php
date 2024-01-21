@@ -70,8 +70,8 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 								<thead>
 									<tr>
 										<th>NIP</th>
-										<th>Tanggal</th>
 										<th>Nama Karyawan</th>
+										<th>Tanggal</th>
 										<th>Gaji Karyawan</th>
 									</tr>
 								</thead>
@@ -79,18 +79,27 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 									<?php foreach ($data as $row): ?>
 									<tr>
 										<td><?= $row['nip'] ?></td>
-										<td><?= $row['tanggal_gaji'] ?></td>
 										<td><?= $row['nama_karyawan'] ?></td>
-										<td><?= $row['banyak_gaji']; ?></td>
+										<td><?= strftime('%e, %B, %Y', strtotime($row['tanggal_gaji'])); ?></td>
+										<td><?= "Rp. " . number_format($row['banyak_gaji']) ?></td>
 									</tr>
 									<?php endforeach; ?>
 								</tbody>
 								<tfoot>
 									<tr>
 										<td colspan="3">Total Penggajian</td>
-										<td><?= $row['banyak_gaji']; ?></td>
+										<td>
+											<?php
+												$totalGaji = 0;
+												foreach ($data as $row) {
+													$totalGaji += extractNumericValue($row['banyak_gaji']);
+												}
+												echo formatCurrency($totalGaji);
+											?>
+										</td>
 									</tr>
 								</tfoot>
+
 							</table>
 
 						</div>
@@ -99,6 +108,17 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 			</div>
 		</div>
 	</div>
+	
+<?php
+function extractNumericValue($currencyString) {
+    $numericValue = preg_replace("/[^0-9]/", "", $currencyString);
+    return (int) $numericValue;
+}
+
+function formatCurrency($numericValue) {
+    return 'Rp.' . number_format($numericValue, 0, ',', '.');
+}
+?>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>

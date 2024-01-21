@@ -108,9 +108,10 @@
                         ?>
                             <tr>
                                 <td><?= $no++ ?></td>
-                                <td><?= $data['tanggal_keluar'] ?></td>
+                                <td><?= strftime('%e, %B, %Y', strtotime($data['tanggal_keluar'])); ?></td>
+
                                 <td><?= $data['keterangan'] ?></td>
-                                <td><?= $data['jumlah'] ?></td>
+                                <td><?= "Rp. ".number_format($data['jumlah']) ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

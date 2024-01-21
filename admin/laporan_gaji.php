@@ -92,7 +92,7 @@
 
               <td><?= $data['nip'] ?></td>
               <td><?= $data['nama_karyawan'] ?></td>
-              <td><?= $data['banyak_gaji'] ?></td>
+              <td><?= "Rp. " . number_format($data['banyak_gaji']) ?></td>
             </tr>
             <?php } ?>
           </tbody>

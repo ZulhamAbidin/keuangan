@@ -84,23 +84,24 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
 
 									foreach ($data as $item) {
 										// Mengonversi string "Rp" dan pisahkan ribuan
-										$jumlahPengeluaran = (int) str_replace(['Rp', '.'], '', $item['jumlah']);
-										$totalPengeluaran += $jumlahPengeluaran; // Menambahkan jumlah pengeluaran pada variabel total
+										$jumlah_masuk = (int) str_replace(['Rp', '.'], '', $item['jumlah']);
+										$totalPengeluaran += $jumlah_masuk; // Menambahkan jumlah pengeluaran pada variabel total
 
 										?>
 										<tr>
 											<td><?= $no; ?></td>
 											<td><?= $item['keterangan']; ?></td>
-											<td><?= $item['tanggal_keluar']; ?></td>
-											<td><?= number_format($jumlahPengeluaran); ?></td>
+											<td> <?= strftime('%e, %B, %Y', strtotime($item['tanggal_keluar'])); ?> </td>
+											<td>Rp.<?= number_format($jumlah_masuk); ?></td> <!-- Close the <td> tag properly -->
 										</tr>
+
 										<?php
 										$no++;
 									}
 									?>
 									<tr>
 										<td colspan="3">Total Pengeluaran</td>
-										<td><?= number_format($totalPengeluaran); ?></td>
+										<td>Rp.<?= number_format($totalPengeluaran); ?></td>
 									</tr>
 								</tbody>
                             </table>

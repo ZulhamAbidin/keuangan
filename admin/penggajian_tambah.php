@@ -5,7 +5,9 @@ if(isset($_POST['simpan'])){
   $tggl  = date('Y-m-d', strtotime($_POST['tanggal_gaji']));
   $nip   = $_POST['nip'];
   $nama  = $_POST['nama_karyawan'];
-  $gaji  = $_POST['banyak_gaji'];
+  // $gaji  = preg_replace("/[^0-9]/", "", $_POST['banyak_gaji']); // Remove non-numeric characters
+  $gaji = mysqli_real_escape_string($koneksi, $_POST['banyak_gaji_numeric']);
+
 
   // Mengelola pengunggahan gambar
   $gambarFolder = 'gambar/data_penggajian/';
@@ -81,10 +83,15 @@ function formatRupiah(angka) {
 
 function updateFormat() {
   var gajiInput = document.getElementById('format');
-  var gajiValue = gajiInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
+  var gajiValue = gajiInput.value.replace(/\D/g, ''); // Remove non-digit characters
   gajiInput.value = formatRupiah(gajiValue);
+
+  // Update the hidden input with the numeric value
+  var numericInput = document.getElementById('banyak_gaji_numeric');
+  numericInput.value = gajiValue;
 }
 </script>
+
 
 <div class="container">
   <div class="page-header">
@@ -117,10 +124,12 @@ function updateFormat() {
             placeholder="Input Nama Karyawan"  required>
         </div>
         <div class="form-group">
-          <label for="banyak_gaji">Banyak Gaji</label>
-          <input type="text" class="form-control" name="banyak_gaji" autocomplete="off" oninput="updateFormat()" id="format"
-            placeholder="Input Gaji Karyawan" required>
-        </div>
+  <label for="banyak_gaji">Banyak Gaji</label>
+  <input type="text" class="form-control" name="banyak_gaji" autocomplete="off" oninput="updateFormat()" id="format" placeholder="Input Gaji Karyawan" required>
+  <!-- Hidden input for storing the numeric value -->
+  <input type="hidden" name="banyak_gaji_numeric" id="banyak_gaji_numeric">
+</div>
+
         <div class="form-group">
           <label for="nip">Gambar</label>
           <input type="file" class="form-control" name="gambar" accept="image/*" autocomplete="off" required>

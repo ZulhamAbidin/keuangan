@@ -52,6 +52,25 @@ if(isset($_POST['simpan'])){
   }
 }
 ?>
+
+
+
+
+<script>
+function formatRupiah(angka) {
+  var reverse = angka.toString().split('').reverse().join(''),
+      ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  return 'Rp.' + ribuan;
+}
+
+function updateFormat() {
+  var gajiInput = document.getElementById('format');
+  var gajiValue = gajiInput.value.replace(/\D/g, '');
+  gajiInput.value = formatRupiah(gajiValue);
+}
+</script>
+
 <div class="container">
     <div class="page-header">
         <h1 class="page-title">Tambah Data Pengeluaran</h1>
@@ -74,7 +93,7 @@ if(isset($_POST['simpan'])){
                 </div>
                 <div class="mb-3">
                     <label for="jumlah" class="form-label">Jumlah Pengeluaran (Rp)</label>
-                    <input type="text" class="form-control" name="jumlah" autocomplete="off" placeholder="Input Jumlah Pengeluaran (Rp)" required>
+                    <input type="text" class="form-control" name="jumlah" autocomplete="off" placeholder="Input Jumlah Pengeluaran (Rp)"  oninput="updateFormat()" id="format" required>
                 </div>
                 <div class="mb-3">
                     <label for="keterangan" class="form-label">Keterangan</label>
