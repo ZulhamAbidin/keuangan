@@ -6,8 +6,8 @@
         </a>
         <div>
             <address class="pt-3">
-                Street Address, State, City, Region, Postal Code<br>
-                yourdomain@example.com
+                Sistem informasi Pengelolaan Dana Desa. <br>
+                Desa Panyiwi Kecamatan Cenrana Kabupaten Bone
             </address>
         </div>
     </div>

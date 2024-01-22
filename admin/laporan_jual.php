@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <button type="submit" name="cetak" id="cetak" class="btn btn-primary">Cetak</button>
-                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button type="reset" class="btn btn-warning">Reset</button>
                     </div>
                 </div>
             </form>
