@@ -97,17 +97,16 @@ if ($statusLogin == 'failed') {
     <div class="w-full max-w-[26rem] p-4 sm:px-5">
       
       <div class="text-center">
-        <img class="mx-auto h-16 w-16" src="sash/images/brand/logo-2.png" alt="logo" />
+        <img class="mx-auto h-24 w-24" src="sash/images/brand/logo-2.png" alt="logo" />
         <div class="mt-4">
           <h2 class="text-2xl font-semibold text-slate-600 dark:text-navy-100">
-            Selamat Datang Kembali
+            SISTEM INFORMASI
           </h2>
           <p class="text-slate-400 dark:text-navy-300">
-            Silah Login Untuk Melanjutkan
+            PENGELOLAAN DANA DESA PANYIWI KABUPATEN BONE
           </p>
         </div>
       </div>
-
       
       <form action="" method="post">
         <div class="card mt-5 rounded-lg p-5 lg:p-7">

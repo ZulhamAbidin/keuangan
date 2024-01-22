@@ -23,7 +23,7 @@ $dt     = mysqli_fetch_array($ambil);
     <meta name="author" content="Spruko Technologies Private Limited">
     <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
     <link rel="shortcut icon" type="image/x-icon" href="../sash/images/brand/logo-2.png" />
-    <title>Keuangan </title>
+    <title>Sisfo Keuangan Desa Panyiwi</title>
     <link id="style" href="../sash/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="../sash/css/style.css" rel="stylesheet" />
