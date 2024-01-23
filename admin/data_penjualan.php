@@ -49,7 +49,14 @@
             ?>
             <tr>
               <td><?= $no++ ?></td>
-              <td><?= $data['tanggal_jual'] ?></td>
+              <td>
+                                            <?php
+                                            $tanggal_jual = $data['tanggal_jual'];
+                                            $timestamp = strtotime($tanggal_jual);
+                                            $tanggalFormat = date('d, F, Y', $timestamp);
+                                            echo $tanggalFormat;
+                                            ?>
+              </td>
               <td><?= $data['nama_barang'] ?></td>
               <td><?= "Rp. ".number_format($data['jumlah_jual']) ?></td>
               <td>

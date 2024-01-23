@@ -6,6 +6,8 @@ if(isset($_POST['simpan'])){
     $nma   = $_POST['nama_barang'];
     $jml   = preg_replace("/[^0-9]/", "", $_POST['jumlah_jual']); 
     $ket   = "Transaksi Penjualan ".$nma;
+    $tanggal_jual = $_POST['tanggal_jual'];
+$tggl = date('Y-m-d', strtotime($tanggal_jual));
     $gambar = $_FILES['gambar']['name'];
     $tmpName = $_FILES['gambar']['tmp_name'];
     $folder = 'gambar/data_penjualan/';
@@ -82,10 +84,6 @@ if(isset($_POST['simpan'])){
     <div class="card-body">
       <form action="" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-          <label class="form-control-label" for="gambar">Gambar</label>
-          <input type="file" class="form-control" name="gambar" accept="image/*" required>
-        </div>
-        <div class="form-group">
           <label class="form-control-label" for="tanggal_jual">Tanggal Penjualan</label>
           <input type="date" class="form-control" name="tanggal_jual" autocomplete="off" required>
         </div>
@@ -96,6 +94,10 @@ if(isset($_POST['simpan'])){
         <div class="form-group">
           <label class="form-control-label" for="jumlah_jual">Harga Jual(Rp)</label>
           <input type="text" class="form-control" name="jumlah_jual" autocomplete="off" placeholder="Input Jumlah Penjualan (Rp)" oninput="updateFormat()" id="format" required>
+        </div>
+         <div class="form-group">
+          <label class="form-control-label" for="gambar">Gambar</label>
+          <input type="file" class="form-control" name="gambar" accept="image/*" required>
         </div>
         <div class="form-group">
           <button type="submit" class='btn btn-primary btn-sm' name="simpan">Simpan

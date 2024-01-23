@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Pemeriksaan $_SESSION['login']
 if (!isset($_SESSION['login']) || $_SESSION['login'] == "") {
-    echo "<script>alert('Anda Harus Login Terlebih Dahulu');window.location='../index.php'</script>";
+    echo "<script>alert('Anda Harus Login Terlebih Dahulu');window.location='../login.php'</script>";
     exit(); // Tambahkan exit() setelah melakukan redirect
 }
 

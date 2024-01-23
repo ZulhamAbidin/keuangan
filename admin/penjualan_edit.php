@@ -103,10 +103,6 @@ if (isset($_POST['simpan'])) {
             ?>
             <form action="" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label class="form-control-label" for="gambar">Gambar</label>
-                    <input type="file" class="form-control" name="gambar" accept="image/*">
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" for="nama_barang">Nama Makanan</label>
                     <input type="text" class="form-control" name="nama_barang" value="<?= $data['nama_barang'] ?>" placeholder="Masukan Nama Barang" autocomplete="off" required>
                 </div>
@@ -114,6 +110,14 @@ if (isset($_POST['simpan'])) {
                 <div class="form-group">
                     <label class="form-control-label" for="jumlah_jual">Harga Jual (Rp)</label>
                     <input type="text" class="form-control" name="jumlah_jual" autocomplete="off" value="<?= $data['jumlah_jual'] ?>" placeholder="Input Jumlah Penjualan (Rp)"  oninput="updateFormat()" id="format" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="tanggal_jual">Tanggal Penjualan</label>
+                    <input type="date" class="form-control" name="tanggal_jual" autocomplete="off" value="<?= $data['tanggal_jual'] ?>" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="gambar">Gambar</label>
+                    <input type="file" class="form-control" name="gambar" accept="image/*">
                 </div>
                 <div class="form-group">
                     <button type="submit" class='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>
