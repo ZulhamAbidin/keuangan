@@ -1,29 +1,32 @@
 <?php
-// Pastikan koneksi database sudah dilakukan di file lain, atau tambahkan di sini jika belum
 include '../koneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Ambil tahun yang dikirimkan dari permintaan POST
     $selectedYear = $_POST["year"];
 
-    // Panggil fungsi getDataByMonth untuk mendapatkan data baru berdasarkan tahun
     $dataMasukBulanan = getDataByMonth($koneksi, 'masuk', $selectedYear);
     $dataKeluarBulanan = getDataByMonth($koneksi, 'keluar', $selectedYear);
     $dataPenjualanBulanan = getDataByMonth($koneksi, 'penjualan', $selectedYear);
     $dataGajiBulanan = getDataByMonth($koneksi, 'penggajian', $selectedYear);
 
-    // Buat array response dengan data baru
+    $totalMasukTahunan = array_sum($dataMasukBulanan);
+    $totalKeluarTahunan = array_sum($dataKeluarBulanan);
+    $totalPenjualanTahunan = array_sum($dataPenjualanBulanan);
+    $totalGajiTahunan = array_sum($dataGajiBulanan);
+
     $response = [
         'dataMasuk' => $dataMasukBulanan,
         'dataKeluar' => $dataKeluarBulanan,
         'dataPenjualan' => $dataPenjualanBulanan,
         'dataGaji' => $dataGajiBulanan,
+        'totalMasukTahunan' => $totalMasukTahunan,
+        'totalKeluarTahunan' => $totalKeluarTahunan,
+        'totalPenjualanTahunan' => $totalPenjualanTahunan,
+        'totalGajiTahunan' => $totalGajiTahunan,
     ];
 
-    // Kembalikan response dalam format JSON
     echo json_encode($response);
 } else {
-    // Jika bukan permintaan POST, kembalikan response kosong
     echo json_encode([]);
 }
 

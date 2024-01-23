@@ -84,78 +84,69 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
     </div>
 
     <div class="row">
-
+        
         <div class="col-12">
             <div class="form-group">
-    <label for="tahunDropdown">Select Year:</label>
-    <select class="form-control" id="tahunDropdown" onchange="updateChart()">
-        <?php
-        for ($year = date("Y"); $year >= 2000; $year--) {
-    echo "<option value=\"$year\">$year</option>";
-}
-        ?>
-    </select>
-</div>
+                <label for="tahunDropdown">Pilih Tahun:</label>
+                <select class="form-control" id="tahunDropdown" onchange="updateChart()">
+                    <?php
+                    $queryDistinctYears = mysqli_query($koneksi, "SELECT DISTINCT YEAR(tanggal) AS Year FROM (
+                        SELECT tanggal_gaji AS tanggal FROM data_penggajian
+                        UNION
+                        SELECT tanggal_masuk AS tanggal FROM data_masuk
+                        UNION
+                        SELECT tanggal_keluar AS tanggal FROM data_keluar
+                        UNION
+                        SELECT tanggal_jual AS tanggal FROM data_penjualan
+                    ) AS TahunDistinct ORDER BY Year DESC");
 
+                    while ($dataDistinctYear = mysqli_fetch_array($queryDistinctYears)) {
+                        $selected = ($dataDistinctYear['Year'] == $tahunTerbaru) ? 'selected' : '';
+                        echo "<option value=\"" . $dataDistinctYear['Year'] . "\" $selected>" . $dataDistinctYear['Year'] . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
         </div>
-        
+
         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
             <div class="row text-white">
-
-            
-                
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden" style="background-color : #2B5F9B !important"> <!-- Ganti bg-warning sesuai warna yang diinginkan -->
+                    <div class="card overflow-hidden" style="background-color: #2B5F9B !important">
                         <div class="card-body">
                             <h6 class="">Pemasukan/Tahun</h6>
-                            <?php
-                            $query = mysqli_query($koneksi, "SELECT sum(jumlah_masuk) as JumlahMasuk FROM data_masuk WHERE year(tanggal_masuk) = '$dataTahunMasuk[MaxMasuk]'");
-                            $data  = mysqli_fetch_array($query);
-                            ?>
-                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahMasuk']) ?></h3>
+                            <h5 id="jumlahMasuk" class="mb-0 number-font">
+                                <?= "Rp. " . formatRupiah($totalMasukTahunan) ?></h3>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden bg-danger" style="background-color : #f7b731 !important"> <!-- Ganti bg-danger sesuai warna yang diinginkan -->
+                    <div class="card overflow-hidden bg-danger" style="background-color: #f7b731 !important">
                         <div class="card-body">
                             <h6 class="">Pengeluaran/Tahun</h6>
-                            <?php
-                            $query = mysqli_query($koneksi, "SELECT sum(jumlah) as JumlahKeluar FROM data_keluar WHERE year(tanggal_keluar) = '$dataTahunKeluar[MaxKeluar]'");
-                            $data  = mysqli_fetch_array($query);
-                            ?>
-                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahKeluar']) ?></h3>
+                            <h5 id="jumlahKeluar" class="mb-0 number-font">
+                                <?= "Rp. " . formatRupiah($totalKeluarTahunan) ?></h3>
                         </div>
                     </div>
                 </div>
-            
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden bg-info" style="background-color : #09ad95 !important"> <!-- Ganti bg-info sesuai warna yang diinginkan -->
+                    <div class="card overflow-hidden bg-info" style="background-color: #09ad95 !important">
                         <div class="card-body">
                             <h6 class="">Penjualan/Tahun</h6>
-                            <?php
-                            $query = mysqli_query($koneksi, "SELECT sum(jumlah_jual) as JumlahJual FROM data_penjualan WHERE year(tanggal_jual) = '$dataTahunJual[MaxJual]'");
-                            $data  = mysqli_fetch_array($query);
-                            ?>
-                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahJual']) ?></h3>
+                            <h5 id="jumlahPenjualan" class="mb-0 number-font">
+                                <?= "Rp. " . formatRupiah($totalPenjualanTahunan) ?></h3>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                    <div class="card overflow-hidden bg-success" style="background-color : #e82646 !important"> <!-- Ganti bg-success sesuai warna yang diinginkan -->
+                    <div class="card overflow-hidden bg-success" style="background-color: #e82646 !important">
                         <div class="card-body">
                             <h6 class="">Penggajian/Tahun</h6>
-                            <?php
-                            $query = mysqli_query($koneksi, "SELECT sum(banyak_gaji) as JumlahGaji FROM data_penggajian WHERE year(tanggal_gaji) = '$dataTahunGaji[MaxGaji]'");
-                            $data  = mysqli_fetch_array($query);
-                            ?>
-                            <h3 class="mb-0 number-font"><?= "Rp. " . number_format($data['JumlahGaji']) ?></h3>
+                            <h5 id="jumlahGaji" class="mb-0 number-font"><?= "Rp. " . formatRupiah($totalGajiTahunan) ?>
+                                </h3>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-header">
@@ -168,121 +159,116 @@ $totalGajiTahunan = array_sum($dataGajiBulanan);
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
 
 </div>
 
-<!-- Pastikan jQuery sudah dimuat sebelumnya -->
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Fungsi untuk membuat dan mengatur chart
         function createChart(dataMasuk, dataKeluar, dataPenjualan, dataGaji) {
-            var ctx = document.getElementById("chartBar2").getContext("2d");
+    var ctx = document.getElementById("chartBar2").getContext("2d");
 
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    datasets: [{
-                        label: "Pemasukan",
-                        data: dataMasuk,
-                        borderColor: "#2B5F9B",
-                        borderWidth: 0,
-                        backgroundColor: "#2B5F9B"
-                    }, {
-                        label: "Pengeluaran",
-                        data: dataKeluar,
-                        borderColor: "#f7b731",
-                        borderWidth: 0,
-                        backgroundColor: "#f7b731"
-                    }, {
-                        label: "Penjualan",
-                        data: dataPenjualan,
-                        borderColor: "#09ad95",
-                        borderWidth: 0,
-                        backgroundColor: "#09ad95"
-                    }, {
-                        label: "Penggajian",
-                        data: dataGaji,
-                        borderColor: "#e82646",
-                        borderWidth: 0,
-                        backgroundColor: "#e82646"
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        xAxes: [{}],
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontColor: "#9ba6b5",
-                                callback: function (value, index, values) {
-                                    return formatRupiah(value);
-                                }
-                            },
-                        }]
-                    },
-                    legend: {},
-                    tooltips: {
-                        callbacks: {
-                            label: function (tooltipItem, data) {
-                                var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
-                                var value = formatRupiah(tooltipItem.yLabel);
-                                return datasetLabel + ': ' + value;
-                            }
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+            datasets: [{
+                label: "Pemasukan",
+                data: dataMasuk,
+                borderColor: "#2B5F9B",
+                borderWidth: 0,
+                backgroundColor: "#2B5F9B"
+            }, {
+                label: "Pengeluaran",
+                data: dataKeluar,
+                borderColor: "#f7b731",
+                borderWidth: 0,
+                backgroundColor: "#f7b731"
+            }, {
+                label: "Penjualan",
+                data: dataPenjualan,
+                borderColor: "#09ad95",
+                borderWidth: 0,
+                backgroundColor: "#09ad95"
+            }, {
+                label: "Penggajian",
+                data: dataGaji,
+                borderColor: "#e82646",
+                borderWidth: 0,
+                backgroundColor: "#e82646"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{}],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontColor: "#9ba6b5",
+                        callback: function (value, index, values) {
+                            return formatRupiah(value);
                         }
+                    },
+                }]
+            },
+            legend: {},
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+                        var value = formatRupiah(tooltipItem.yLabel);
+                        return datasetLabel + ': ' + value;
                     }
                 }
-            });
-
-            return myChart;
+            }
         }
+    });
 
-        // Fungsi untuk memformat angka menjadi format rupiah
+    return myChart;
+}
         function formatRupiah(angka) {
             var rupiah = "Rp " + number_format(angka, 0, ',', '.');
             return rupiah;
         }
 
-        // Fungsi untuk mengambil data dari server dan memperbarui chart
         function updateChart(selectedYear) {
-            // Menggunakan AJAX untuk mengirim permintaan ke server
-            $.ajax({
-                type: "POST",
-                url: "ajax_update_chart.php",
-                data: { year: selectedYear },
-                success: function (response) {
-                    // Update data chart dengan respons yang diterima dari server
-                    var data = JSON.parse(response);
-                    myChart.data.labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                    myChart.data.datasets[0].data = data.dataMasuk;
-                    myChart.data.datasets[1].data = data.dataKeluar;
-                    myChart.data.datasets[2].data = data.dataPenjualan;
-                    myChart.data.datasets[3].data = data.dataGaji;
-                    myChart.update();  // Perbarui chart
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
+    $.ajax({
+        type: "POST",
+        url: "ajax_update_chart.php",
+        data: { year: selectedYear },
+        success: function (response) {
+            var data = JSON.parse(response);
+            myChart.data.labels = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            myChart.data.datasets[0].data = data.dataMasuk;
+            myChart.data.datasets[1].data = data.dataKeluar;
+            myChart.data.datasets[2].data = data.dataPenjualan;
+            myChart.data.datasets[3].data = data.dataGaji;
+            myChart.update();
+            $("#jumlahMasuk").text("Rp. " + formatRupiah(data.totalMasukTahunan));
+            $("#jumlahKeluar").text("Rp. " + formatRupiah(data.totalKeluarTahunan));
+            $("#jumlahPenjualan").text("Rp. " + formatRupiah(data.totalPenjualanTahunan));
+            $("#jumlahGaji").text("Rp. " + formatRupiah(data.totalGajiTahunan));
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
         }
+    });
+}
 
-        // Mendengarkan perubahan pada dropdown tahun dan memanggil fungsi updateChart
         $("#tahunDropdown").on("change", function () {
             var selectedYear = $(this).val();
             updateChart(selectedYear);
         });
 
-        // Panggil fungsi createChart untuk membuat chart awal
-        var myChart = createChart(
+        myChart = createChart(
             <?= json_encode($dataMasukBulanan) ?>,
             <?= json_encode($dataKeluarBulanan) ?>,
             <?= json_encode($dataPenjualanBulanan) ?>,
