@@ -80,21 +80,18 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
                                 <tbody>
 									<?php
 									$no = 1;
-									$totalPengeluaran = 0; // Inisialisasi variabel total
+									$totalPengeluaran = 0;
 
 									foreach ($data as $item) {
-										// Mengonversi string "Rp" dan pisahkan ribuan
 										$jumlah_masuk = (int) str_replace(['Rp', '.'], '', $item['jumlah']);
-										$totalPengeluaran += $jumlah_masuk; // Menambahkan jumlah pengeluaran pada variabel total
-
+										$totalPengeluaran += $jumlah_masuk; 
 										?>
 										<tr>
 											<td><?= $no; ?></td>
 											<td><?= $item['keterangan']; ?></td>
 											<td> <?= strftime('%e, %B, %Y', strtotime($item['tanggal_keluar'])); ?> </td>
-											<td>Rp.<?= number_format($jumlah_masuk); ?></td> <!-- Close the <td> tag properly -->
+											<td>Rp.<?= number_format($jumlah_masuk); ?></td>
 										</tr>
-
 										<?php
 										$no++;
 									}
@@ -128,7 +125,6 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
 	<script src="../sash/plugins/datatable/dataTables.responsive.min.js"></script>
 	<script src="../sash/plugins/datatable/responsive.bootstrap5.min.js"></script>
 	<script src="../sash/js/table-data.js"></script>
-
 	<script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
 	<script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../sash/js/jquery.sparkline.min.js"></script>
@@ -160,7 +156,6 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
 	<script src="../sash/js/themeColors.js"></script>
 	<script src="../sash/js/custom.js"></script>
 </body>
-
 </html>
 
 

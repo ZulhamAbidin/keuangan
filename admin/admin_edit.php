@@ -2,32 +2,26 @@
 <?php
 include 'src/header.php';
 
-$alertMessage = ''; // Variabel untuk menyimpan pesan alert
-$namaValue = ''; // Variabel untuk menyimpan nilai input nama_admin
-$usernameValue = ''; // Variabel untuk menyimpan nilai input username
+$alertMessage = '';
+$namaValue = ''; 
+$usernameValue = '';
 
-// Memproses form jika dikirimkan
 if(isset($_POST['simpan'])){
     $id = $_GET['id_admin'];
     $nama = $_POST['nama_admin'];
     $username = $_POST['username'];
-    $password = md5($_POST['password']); // Menggunakan MD5 untuk mengenkripsi password
+    $password = md5($_POST['password']);
 
-    // Validasi password minimal 6 karakter
     if (strlen($_POST['password']) < 6) {
         $alertMessage = 'Password harus memiliki minimal 6 karakter';
     } else {
-        // Validasi username unik
         $check_username = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE username='$username' AND id_admin != '$id'");
         if (mysqli_num_rows($check_username) > 0) {
             $alertMessage = 'Username sudah digunakan';
         } else {
-            // Update data admin ke database
             $update = mysqli_query($koneksi, "UPDATE data_admin SET nama_admin = '$nama', username = '$username', password = '$password' WHERE id_admin = '$id'");
             if ($update) {
                 $alertMessage = 'Data Berhasil Diupdate';
-
-                // Redirect ke halaman data_admin setelah menampilkan SweetAlert
                 echo '<script>
                         Swal.fire({
                             icon: "success",
@@ -45,8 +39,6 @@ if(isset($_POST['simpan'])){
             }
         }
     }
-
-    // Mengisi kembali nilai input pada form
     $namaValue = $nama;
     $usernameValue = $username;
 }

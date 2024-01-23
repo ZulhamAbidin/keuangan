@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -21,7 +20,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $('#laporanTable').DataTable({
@@ -33,9 +31,7 @@
             });
         });
     </script>
-
 </head>
-
 <body>
     <div class="container mt-5">
         <div class="row">
@@ -64,10 +60,8 @@
                                     <?php
                                     $no = 1;
                                     include '../koneksi.php';
-
                                     $tanggal1 = date('Y-m-d', strtotime($_POST['tanggal1']));
                                     $tanggal2 = date('Y-m-d', strtotime($_POST['tanggal2']));
-
                                     $query = mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE tanggal_jual BETWEEN '$tanggal1' AND '$tanggal2'");
                                     while ($lihat = mysqli_fetch_array($query)) {
                                     ?>
@@ -95,14 +89,12 @@
             </div>
         </div>
     </div>
-
     <script src="../sash/js/jquery.min.js"></script>
     <script src="../sash/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="../sash/plugins/datatable/js/dataTables.bootstrap5.js"></script>
     <script src="../sash/js/table-data.js"></script>
     <script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
     <script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Include other scripts as needed -->
 </body>
 
 </html>

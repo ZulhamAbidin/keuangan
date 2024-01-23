@@ -1,42 +1,30 @@
 <?php
-// Cek apakah admin sudah login, jika iya redirect ke halaman admin/index
 session_start();
 if(isset($_SESSION['login']) && $_SESSION['login'] == "Login"){
     header("Location: admin/index.php");
     exit();
 }
-
 $statusLogin = '';
-
 if(isset($_POST['login'])){
     include 'koneksi.php';
     $user = $_POST['username'];
     $pass = md5($_POST['password']); 
-
     $login = mysqli_query($koneksi,"SELECT * FROM data_admin where username = '$user' and password = '$pass'");
     $cek = mysqli_num_rows($login);
-
     if($cek > 0){
         $data = mysqli_fetch_assoc($login);
         $_SESSION['login']   = "Login";
         $_SESSION['id']      = $data['id_admin'];
         $_SESSION['nama']    = $data['nama_admin'];
-
         $statusLogin = 'success';
-
-        // Tunggu 1 detik sebelum redirect
         sleep(1);
-
-        // Redirect ke halaman admin/index
         header("Location: admin/index.php");
-        exit(); // Pastikan untuk keluar setelah melakukan redirect
+        exit();
     } else {
         $statusLogin = 'failed';
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -151,11 +139,9 @@ if ($statusLogin == 'failed') {
     </div>
   </main>
 </div>
-
   <div id="x-teleport-target"></div>
   <script>
     window.addEventListener("DOMContentLoaded", () => Alpine.start());
   </script>
 </body>
-
 </html>

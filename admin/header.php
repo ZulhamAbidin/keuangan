@@ -1,13 +1,13 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <a class="header-brand" href="index.html">
             <img src="../sash/images/brand/logo-3.png" class="header-brand-img logo-3" alt="Sash logo">
-            <img src="../sash/images/brand/logo.png" class="header-brand-img logo" alt="Sash logo">
+            <!-- <img src="../sash/images/brand/logo.png" class="header-brand-img logo" alt="Sash logo"> -->
         </a>
         <div>
             <address class="pt-3">
                 Sistem informasi Pengelolaan Dana Desa. <br>
-                Desa Panyiwi Kecamatan Cenrana Kabupaten Bone
+                Desa Panyiwi Kecamatan Cenrana Kabupaten Bone Provinsi Sulawesi Selatan, Indonesia,Kode POS : 92754
             </address>
         </div>
     </div>

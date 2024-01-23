@@ -1,13 +1,7 @@
-
-            
-
-
                     </div>
                 </div>
             </div>
         </div>
-
-
         <footer class="footer">
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
@@ -19,7 +13,6 @@
             </div>
         </footer>
     </div>
-
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
     <script>
         $(function () {
@@ -38,22 +31,21 @@
         })
     </script>
     <script>
-    function confirmLogout() {
-        Swal.fire({
-            title: 'Konfirmasi Logout',
-            text: 'Anda yakin ingin logout?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Logout',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "logout.php";
-            }
-        });
-    }
-</script>
-
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: 'Anda yakin ingin logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Logout',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "logout.php";
+                }
+            });
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -97,16 +89,15 @@
     <script src="../sash/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="../sash/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script src="../sash/plugins/sidemenu/sidemenu.js"></script>
+
     <script src="../sash/plugins/bootstrap5-typehead/autocomplete.js"></script>
     <script src="../sash/js/typehead.js"></script>
     <script src="../sash/js/index1.js"></script>
+
     <script src="../sash/js/themeColors.js"></script>
     <script src="../sash/js/custom.js"></script>
     <script src="../sash/js/circle-progress.min.js"></script>
     <script src="../sash/plugins/peitychart/jquery.peity.min.js"></script>
     <script src="../sash/plugins/peitychart/peitychart.init.js"></script>
-
-
 </body>
-
 </html>

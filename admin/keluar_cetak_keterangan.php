@@ -1,24 +1,18 @@
 <?php
 include '../koneksi.php';
-
 $ket = $_POST['keterangan'];
 $tanggal1 = date('Y-m-d', strtotime($_POST['tanggal1']));
 $tanggal2 = date('Y-m-d', strtotime($_POST['tanggal2']));
-
 $query = mysqli_query($koneksi, "SELECT * FROM data_keluar WHERE keterangan = '$ket' AND tanggal_keluar BETWEEN '$tanggal1' AND '$tanggal2'");
 $data = [];
 
 while ($lihat = mysqli_fetch_array($query)) {
     $data[] = $lihat;
 }
-
 $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah) as jumlahPengeluaran FROM data_keluar WHERE keterangan = '$ket' AND tanggal_keluar BETWEEN '$tanggal1' AND '$tanggal2'"));
 ?>
 
-
-
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -52,9 +46,7 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
         });
     });
 </script>
-
 </head>
-
 <body>
 	<div class="container">
         <div class="row">
@@ -82,12 +74,11 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
                                 <tbody>
 								<?php
 								$no = 1;
-								$totalPengeluaran = 0; // Inisialisasi variabel total
+								$totalPengeluaran = 0; 
 
 								foreach ($data as $item) {
-									// Mengonversi string "Rp" dan pisahkan ribuan
 									$jumlahPengeluaran = (int) str_replace(['Rp', '.'], '', $item['jumlah']);
-									$totalPengeluaran += $jumlahPengeluaran; // Menambahkan jumlah pengeluaran pada variabel total
+									$totalPengeluaran += $jumlahPengeluaran;
 
 									?>
 									<tr>
@@ -130,7 +121,6 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
 	<script src="../sash/plugins/datatable/dataTables.responsive.min.js"></script>
 	<script src="../sash/plugins/datatable/responsive.bootstrap5.min.js"></script>
 	<script src="../sash/js/table-data.js"></script>
-
 	<script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
 	<script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../sash/js/jquery.sparkline.min.js"></script>
@@ -162,7 +152,6 @@ $totalPengeluaran = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah
 	<script src="../sash/js/themeColors.js"></script>
 	<script src="../sash/js/custom.js"></script>
 </body>
-
 </html>
 
 

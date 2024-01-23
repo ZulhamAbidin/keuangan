@@ -30,7 +30,6 @@
                         $query = mysqli_query($koneksi, "SELECT * FROM data_admin");
 
                         while ($data = mysqli_fetch_array($query)) {
-                            // Gunakan variabel $dt yang telah diambil dari sesi
                             $class = ($data['username'] == $dt['username']) ? '' : '';
                         ?>
                             <tr class="<?= $class ?>">
@@ -85,10 +84,9 @@
                                 text: response.message,
                                 icon: 'success'
                             }).then((result) => {
-                                window.location.reload(); // Contoh: Refresh halaman
+                                window.location.reload();
                             });
                         } else {
-                            // Jika terjadi kesalahan, tampilkan SweetAlert error
                             Swal.fire({
                                 title: 'Gagal!',
                                 text: response.message,
@@ -123,5 +121,4 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
-
 <?php include 'src/footer.php'; ?>

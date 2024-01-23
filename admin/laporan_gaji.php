@@ -13,9 +13,11 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
+        
         <div class="card-header">
           <div class="card-title">Cetak Laporan Penggajian</div>
         </div>
+        
         <div class="card-body">
           <form method="POST" action="penggajian_cetak.php" target="_blank()">
             <div class="row">
@@ -78,18 +80,12 @@
               <td><?= $no++ ?></td>
               <td>
                 <?php
-                                        // Mendapatkan tanggal dari variabel $data['tanggal_gaji']
-                                        $tanggalGaji = $data['tanggal_gaji'];
-
-                                        // Mengonversi tanggal menjadi format yang diinginkan
-                                        $timestamp = strtotime($tanggalGaji);
-                                        $tanggalFormat = date('d, F, Y', $timestamp);
-                                        
-                                        // Menampilkan tanggal yang telah di-format
-                                        echo $tanggalFormat;
-                                        ?>
+                    $tanggalGaji = $data['tanggal_gaji'];
+                    $timestamp = strtotime($tanggalGaji);
+                    $tanggalFormat = date('d, F, Y', $timestamp);
+                    echo $tanggalFormat;
+                ?>
               </td>
-
               <td><?= $data['nip'] ?></td>
               <td><?= $data['nama_karyawan'] ?></td>
               <td><?= "Rp. " . number_format($data['banyak_gaji']) ?></td>
@@ -103,21 +99,16 @@
 
 </div>
 
-
 <script>
     function showImageModal(imageUrl) {
-        // Tetapkan gambar pada elemen img di dalam modal
         document.getElementById('modalImage').src = imageUrl;
-        // Tampilkan modal
         $('#imageModal').modal('show');
     }
 </script>
-
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 <script src="../sash/js/jquery.min.js"></script>
-
 
 <?php include 'src/footer.php'; ?>

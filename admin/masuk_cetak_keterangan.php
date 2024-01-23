@@ -1,23 +1,18 @@
 <?php
 include '../koneksi.php';
-
 $ket = $_POST['keterangan'];
 $tanggal1 = date('Y-m-d', strtotime($_POST['tanggal1']));
 $tanggal2 = date('Y-m-d', strtotime($_POST['tanggal2']));
-
 $query = mysqli_query($koneksi, "SELECT * FROM data_masuk WHERE keterangan = '$ket' AND tanggal_masuk BETWEEN '$tanggal1' AND '$tanggal2'");
 $data = [];
-
 while ($lihat = mysqli_fetch_array($query)) {
     $data[] = $lihat;
 }
-
 $totalPemasukan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah_masuk) as jumlahMasuk FROM data_masuk WHERE keterangan = '$ket' AND tanggal_masuk BETWEEN '$tanggal1' AND '$tanggal2'"));
 ?>
 
 
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -36,21 +31,21 @@ $totalPemasukan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah_m
 	<link id="theme" rel="stylesheet" type="text/css" media="all" href="../sash/colors/color1.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
-	 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
   
 	<script>
-    $(document).ready(function () {
-        $('#laporanTable').DataTable({
-            "paging": false,
-            "searching": false,
-            "ordering": false,
-            "info": false,
-            "autoWidth": true
-        });
-    });
-</script>
+		$(document).ready(function () {
+			$('#laporanTable').DataTable({
+				"paging": false,
+				"searching": false,
+				"ordering": false,
+				"info": false,
+				"autoWidth": true
+			});
+		});
+	</script>
 
 </head>
 
@@ -127,7 +122,6 @@ $totalPemasukan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah_m
 	<script src="../sash/plugins/datatable/dataTables.responsive.min.js"></script>
 	<script src="../sash/plugins/datatable/responsive.bootstrap5.min.js"></script>
 	<script src="../sash/js/table-data.js"></script>
-
 	<script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
 	<script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../sash/js/jquery.sparkline.min.js"></script>
@@ -159,7 +153,6 @@ $totalPemasukan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT SUM(jumlah_m
 	<script src="../sash/js/themeColors.js"></script>
 	<script src="../sash/js/custom.js"></script>
 </body>
-
 </html>
 
 

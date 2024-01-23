@@ -58,12 +58,9 @@
                 </button>
               </td>
               <td>
-                <!-- Tombol "Edit" tetap sama -->
-                
                 <a href="penjualan_edit.php?id_penjualan=<?php echo $data['id_penjualan']; ?>" class='btn btn-primary btn-sm'>
                   <span aria-hidden="true"></span>Edit
                 </a>
-                <!-- Tombol "Hapus" dengan konfirmasi SweetAlert -->
                 <a href="#" onclick="showDeleteAlertPenjualan('<?php echo $data['id_penjualan']; ?>')" class='btn btn-danger btn-sm'>
                   <span aria-hidden="true"></span>Hapus
                 </a>
@@ -104,7 +101,6 @@
       confirmButtonText: 'Hapus'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Jika konfirmasi diterima, maka lakukan penghapusan
         $.ajax({
           url: 'penjualan_hapus.php?id_penjualan=' + id_penjualan,
           type: 'GET',

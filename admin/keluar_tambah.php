@@ -3,20 +3,17 @@ include 'src/header.php';
 
 if(isset($_POST['simpan'])){
   $tggl  = date('Y-m-d', strtotime($_POST['tanggal_keluar']));
-  $jml   = $_POST['jumlah_asli']; // Ambil nilai asli dari elemen tersembunyi
+  $jml   = $_POST['jumlah_asli']; 
   $ket   = $_POST['keterangan'];
 
-  // Proses gambar
   $gambar = $_FILES['gambar']['name'];
   $tmpName = $_FILES['gambar']['tmp_name'];
   $folder = 'gambar/data_keluar/';
 
-  // Jika ada gambar baru diupload
   if (!empty($gambar)) {
       $gambarPath = $folder . $gambar;
       move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
   } else {
-      // Jika tidak ada gambar baru diupload, set nilai gambar ke string kosong
       $gambarPath = '';
   }
 
@@ -65,7 +62,6 @@ function updateHiddenValue() {
     var gajiInput = document.getElementById('format');
     var gajiValue = gajiInput.value.replace(/\D/g, '');
     
-    // Simpan nilai asli ke elemen input tersembunyi
     document.getElementById('jumlah_asli').value = gajiValue;
 }
 

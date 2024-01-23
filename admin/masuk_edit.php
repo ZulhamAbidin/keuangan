@@ -10,27 +10,19 @@ if (isset($_GET['id_masuk'])) {
     if (isset($_POST['simpan'])) {
         $tggl  = date('Y-m-d', strtotime($_POST['tanggal_masuk']));
         $jml   = mysqli_real_escape_string($koneksi, $_POST['jumlah_masuk_numeric']);
-
         $ket   = mysqli_real_escape_string($koneksi, $_POST['keterangan']);
 
-        // Mengelola pengunggahan gambar
         $gambar = $_FILES['gambar']['name'];
         $tmpName = $_FILES['gambar']['tmp_name'];
         $folder = 'gambar/data_masuk/';
-
-        // Memeriksa apakah ada gambar baru diunggah
         if (!empty($gambar)) {
-            // Jika ada gambar baru diunggah
             $gambarPath = $folder . $gambar;
             move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
         } else {
-            // Jika tidak ada gambar baru diunggah, gunakan gambar lama
             $gambarPath = $data['gambar'];
         }
-
         $updateQuery = "UPDATE data_masuk SET tanggal_masuk = '$tggl', jumlah_masuk = '$jml', keterangan = '$ket', gambar = '$gambarPath' WHERE id_masuk = '$id'";
         $simpan1 = mysqli_query($koneksi, $updateQuery);
-
         if ($simpan1) {
             echo "<script>
                     Swal.fire({
@@ -65,25 +57,23 @@ if (isset($_GET['id_masuk'])) {
 }
 ?>
 
-<script>
-function formatRupiah(angka) {
-  var reverse = angka.toString().split('').reverse().join(''),
-      ribuan = reverse.match(/\d{1,3}/g);
-  ribuan = ribuan.join('.').split('').reverse().join('');
-  return 'Rp.' + ribuan;
-}
+    <script>
+    function formatRupiah(angka) {
+    var reverse = angka.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+    return 'Rp.' + ribuan;
+    }
 
-function updateFormat() {
-  var jumlahMasukInput = document.getElementById('format');
-  var jumlahMasukValue = jumlahMasukInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
-  jumlahMasukInput.value = formatRupiah(jumlahMasukValue);
+    function updateFormat() {
+    var jumlahMasukInput = document.getElementById('format');
+    var jumlahMasukValue = jumlahMasukInput.value.replace(/\D/g, '');
+    jumlahMasukInput.value = formatRupiah(jumlahMasukValue);
 
-  // Tambahkan baris berikut untuk menyimpan nilai numerik ke input tersembunyi
-  var numericInput = document.getElementById('jumlah_masuk_numeric');
-  numericInput.value = jumlahMasukValue;
-}
-
-</script>
+    var numericInput = document.getElementById('jumlah_masuk_numeric');
+    numericInput.value = jumlahMasukValue;
+    }
+    </script>
 
 
 <div class="container">
@@ -128,5 +118,4 @@ function updateFormat() {
         </div>
     </div>
 </div>
-
 <?php include 'src/footer.php'; ?>

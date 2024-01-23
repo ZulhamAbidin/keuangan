@@ -68,7 +68,7 @@
               </td>
               <td>
                 <?php
-                  // Pengecekan dan inisialisasi variabel edit di dalam loop
+
                   $edit_url = '';
                   $edit_label = '';
 

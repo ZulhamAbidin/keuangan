@@ -33,24 +33,21 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 	<link id="theme" rel="stylesheet" type="text/css" media="all" href="../sash/colors/color1.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
-	 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
-  
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
 	<script>
-    $(document).ready(function () {
-        $('#laporanTable').DataTable({
-            "paging": false,
-            "searching": false,
-            "ordering": false,
-            "info": false,
-            "autoWidth": true
-        });
-    });
-</script>
-
+		$(document).ready(function () {
+			$('#laporanTable').DataTable({
+				"paging": false,
+				"searching": false,
+				"ordering": false,
+				"info": false,
+				"autoWidth": true
+			});
+		});
+	</script>
 </head>
-
 <body>
 	<div class="container">
 		<div class="row">
@@ -99,9 +96,7 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 										</td>
 									</tr>
 								</tfoot>
-
 							</table>
-
 						</div>
 					</div>
 				</div>
@@ -109,16 +104,16 @@ $totalGaji = number_format($data1['jumlahGaji'], 0, ',', '.');
 		</div>
 	</div>
 	
-<?php
-function extractNumericValue($currencyString) {
-    $numericValue = preg_replace("/[^0-9]/", "", $currencyString);
-    return (int) $numericValue;
-}
+	<?php
+	function extractNumericValue($currencyString) {
+		$numericValue = preg_replace("/[^0-9]/", "", $currencyString);
+		return (int) $numericValue;
+	}
 
-function formatCurrency($numericValue) {
-    return 'Rp.' . number_format($numericValue, 0, ',', '.');
-}
-?>
+	function formatCurrency($numericValue) {
+		return 'Rp.' . number_format($numericValue, 0, ',', '.');
+	}
+	?>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -136,7 +131,6 @@ function formatCurrency($numericValue) {
 	<script src="../sash/plugins/datatable/dataTables.responsive.min.js"></script>
 	<script src="../sash/plugins/datatable/responsive.bootstrap5.min.js"></script>
 	<script src="../sash/js/table-data.js"></script>
-
 	<script src="../sash/plugins/bootstrap/js/popper.min.js"></script>
 	<script src="../sash/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../sash/js/jquery.sparkline.min.js"></script>
@@ -168,7 +162,6 @@ function formatCurrency($numericValue) {
 	<script src="../sash/js/themeColors.js"></script>
 	<script src="../sash/js/custom.js"></script>
 </body>
-
 </html>
 
 

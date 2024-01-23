@@ -1,19 +1,21 @@
 <?php
-
-session_start();
-  if($_SESSION['login'] == ""){
-    echo "<script>alert('Anda Harus Login Terlebih Dahulu');window.location='../index.php'</script>";
+// Pastikan session_start hanya dijalankan sekali
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
-include '../koneksi.php';
 
+// Pemeriksaan $_SESSION['login']
+if (!isset($_SESSION['login']) || $_SESSION['login'] == "") {
+    echo "<script>alert('Anda Harus Login Terlebih Dahulu');window.location='../index.php'</script>";
+    exit(); // Tambahkan exit() setelah melakukan redirect
+}
+
+include '../koneksi.php';
 $id     = $_SESSION['id'];
 $ambil  = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE id_admin = '$_SESSION[id]'");
 $dt     = mysqli_fetch_array($ambil);
-
 ?>
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -34,14 +36,13 @@ $dt     = mysqli_fetch_array($ambil);
     <link id="theme" rel="stylesheet" type="text/css" media="all" href="../sash/colors/color1.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
-
 <body class="app sidebar-mini ltr light-mode">
-
     <div class="page">
         <div class="page-main">
 
-            <!-- app-Header -->
             <div class="app-header header sticky">
                 <div class="container-fluid main-container">
                     <div class="d-flex">
@@ -127,9 +128,7 @@ $dt     = mysqli_fetch_array($ambil);
                     </div>
                 </div>
             </div>
-            <!-- /app-Header -->
 
-            <!--APP-SIDEBAR-->
             <div class="sticky">
                 <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
                 <div class="app-sidebar">
@@ -139,9 +138,7 @@ $dt     = mysqli_fetch_array($ambil);
                             <img src="../sash/images/brand/logo-1.png" class="header-brand-img toggle-logo" alt="logo">
                             <img src="../sash/images/brand/logo-2.png" class="header-brand-img light-logo" alt="logo">
                             <img src="../sash/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo">
-                            <!-- header -->
                         </a>
-                        <!-- LOGO -->
                     </div>
                     <div class="main-sidemenu">
                         <div class="slide-left disabled" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg"
@@ -157,11 +154,9 @@ $dt     = mysqli_fetch_array($ambil);
                                         class="side-menu__icon fe fe-home"></i><span
                                         class="side-menu__label">Dashboard</span></a>
                             </li>
-
                             <li class="sub-category">
                                 <h3>MASTER DATA</h3>
                             </li>
-                            
                             <li class="slide">
                                 <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
                                         class="side-menu__icon fe fe-slack"></i><span
@@ -173,7 +168,6 @@ $dt     = mysqli_fetch_array($ambil);
                                     <li><a href="laporan_gaji.php" class="slide-item">Laporan Penggajian</a></li>
                                 </ul>
                             </li>
-
                             <li class="slide">
                                 <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)">
                                     <i class="side-menu__icon fe fe-box"></i>
@@ -186,8 +180,6 @@ $dt     = mysqli_fetch_array($ambil);
                                     <li><a href="laporan_masuk.php" class="slide-item">Laporan Pemasukan</a></li>
                                 </ul>
                             </li>
-
-
                             <li class="slide">
                                 <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)">
                                     <i class="side-menu__icon fe fe-credit-card"></i>
@@ -224,9 +216,7 @@ $dt     = mysqli_fetch_array($ambil);
 
                             <li>
                                 <a class="side-menu__item has-link" href="#"  onclick="confirmLogout()" ><i class="side-menu__icon fe fe-toggle-left"></i><span class="side-menu__label">Logout</span></a>
-                            </li>
-
-                            
+                            </li>                            
                         </ul>
                         <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                                 width="24" height="24" viewBox="0 0 24 24">
@@ -234,13 +224,12 @@ $dt     = mysqli_fetch_array($ambil);
                             </svg></div>
                     </div>
                 </div>
-                <!--/APP-SIDEBAR-->
             </div>
             <div class="main-content app-content mt-0">
                 <div class="side-app">
-
-                    <!-- CONTAINER -->
                     <div class="main-container container-fluid">
+
+                    
 
 
                        

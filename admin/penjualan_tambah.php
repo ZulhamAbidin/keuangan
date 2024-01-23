@@ -4,30 +4,19 @@ include 'src/header.php';
 if(isset($_POST['simpan'])){
     $tggl  = date('Y-m-d', strtotime($_POST['tanggal_jual']));
     $nma   = $_POST['nama_barang'];
-    $jml   = preg_replace("/[^0-9]/", "", $_POST['jumlah_jual']); // Menghapus karakter non-digit
+    $jml   = preg_replace("/[^0-9]/", "", $_POST['jumlah_jual']); 
     $ket   = "Transaksi Penjualan ".$nma;
-
-    // Mengelola pengunggahan gambar
     $gambar = $_FILES['gambar']['name'];
     $tmpName = $_FILES['gambar']['tmp_name'];
     $folder = 'gambar/data_penjualan/';
-
-    // Jika ada gambar baru diunggah
     if (!empty($gambar)) {
         $gambarPath = $folder . $gambar;
         move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'].'/program_uang/admin/'.$gambarPath);
     } else {
-        // Jika tidak ada gambar baru diunggah, atur nilai gambarPath menjadi NULL atau sesuai kebutuhan
         $gambarPath = NULL;
     }
-
-    // Query untuk menyimpan data ke data_penjualan
     $simpanPenjualan = mysqli_query($koneksi, "INSERT INTO data_penjualan (tanggal_jual, nama_barang, jumlah_jual, gambar) VALUES ('$tggl', '$nma', '$jml', '$gambarPath')");
-
-    // Mengambil id_penjualan yang baru saja dimasukkan
     $id_penjualan = mysqli_insert_id($koneksi);
-
-    // Query untuk menyimpan data ke data_masuk
     $simpanMasuk = mysqli_query($koneksi, "INSERT INTO data_masuk (tanggal_masuk, jumlah_masuk, keterangan, gambar, id_penjualan) VALUES ('$tggl', '$jml', '$ket', '$gambarPath', '$id_penjualan')");
     
     if ($simpanPenjualan && $simpanMasuk) {
@@ -61,22 +50,21 @@ if(isset($_POST['simpan'])){
 }
 ?>
 
-
-
 <script>
-function formatRupiah(angka) {
-  var reverse = angka.toString().split('').reverse().join(''),
-      ribuan = reverse.match(/\d{1,3}/g);
-  ribuan = ribuan.join('.').split('').reverse().join('');
-  return 'Rp.' + ribuan;
-}
+  function formatRupiah(angka) {
+    var reverse = angka.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+    return 'Rp.' + ribuan;
+  }
 
-function updateFormat() {
-  var gajiInput = document.getElementById('format');
-  var gajiValue = gajiInput.value.replace(/\D/g, '');
-  gajiInput.value = formatRupiah(gajiValue);
-}
+  function updateFormat() {
+    var gajiInput = document.getElementById('format');
+    var gajiValue = gajiInput.value.replace(/\D/g, '');
+    gajiInput.value = formatRupiah(gajiValue);
+  }
 </script>
+
 <div class="container">
    <div class="page-header">
     <h1 class="page-title">Penjualan</h1>
@@ -118,6 +106,4 @@ function updateFormat() {
   </div>
 
 </div>
-
-
 <?php include 'src/footer.php'; ?>

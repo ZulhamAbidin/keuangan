@@ -12,18 +12,14 @@ if (isset($_GET['id_keluar'])) {
         $jml   = mysqli_real_escape_string($koneksi, $_POST['jumlah']);
         $ket   = mysqli_real_escape_string($koneksi, $_POST['keterangan']);
 
-        // Mengelola pengunggahan gambar
         $gambar = $_FILES['gambar']['name'];
         $tmpName = $_FILES['gambar']['tmp_name'];
         $folder = 'gambar/data_keluar/';
 
-        // Memeriksa apakah ada gambar baru diunggah
         if (!empty($gambar)) {
-            // Jika ada gambar baru diunggah
             $gambarPath = $folder . $gambar;
             move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
         } else {
-            // Jika tidak ada gambar baru diunggah, gunakan gambar lama
             $gambarPath = $data['gambar'];
         }
 
@@ -64,8 +60,6 @@ if (isset($_GET['id_keluar'])) {
 }
 ?>
 
-
-
 <script>
 function formatRupiah(angka) {
   var reverse = angka.toString().split('').reverse().join(''),
@@ -76,7 +70,7 @@ function formatRupiah(angka) {
 
 function updateFormat() {
   var gajiInput = document.getElementById('format');
-  var gajiValue = gajiInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
+  var gajiValue = gajiInput.value.replace(/\D/g, ''); 
   gajiInput.value = formatRupiah(gajiValue);
 }
 </script>

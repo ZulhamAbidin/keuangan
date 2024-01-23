@@ -1,4 +1,3 @@
-
 <?php
 include 'src/header.php';
 
@@ -6,46 +5,31 @@ if (isset($_POST['simpan'])) {
     $tggl = date('Y-m-d', strtotime($_POST['tanggal_jual']));
     $nma = $_POST['nama_barang'];
     $jml = $_POST['jumlah_jual_numeric'];
-    // $jml = $_POST['jumlah_jual'];
-
-    // Mendapatkan data gambar lama dari database
     $id = $_GET['id_penjualan'];
     $query = mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE id_penjualan = '$id'");
     $data = mysqli_fetch_array($query);
 
     if (!$data) {
-        // ID penjualan tidak ditemukan, berikan pesan kesalahan atau redirect ke halaman lain
         echo "ID Penjualan tidak ditemukan.";
         exit;
     }
 
     $gambarLama = $data['gambar'];
-
-    // Mengelola pengunggahan gambar
     $gambar = $_FILES['gambar']['name'];
     $tmpName = $_FILES['gambar']['tmp_name'];
     $folder = 'gambar/data_penjualan/';
-
-    // Memeriksa apakah ada gambar baru diunggah
     if (!empty($gambar)) {
-        // Jika ada gambar baru diunggah
         $gambarPath = $folder . $gambar;
         if (move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath)) {
-            // Pengunggahan berhasil
         } else {
-            // Pengunggahan gagal
             echo "Gagal mengunggah gambar.";
             exit;
         }
     } else {
-        // Jika tidak ada gambar baru diunggah, gunakan gambar lama
         $gambarPath = $gambarLama;
     }
 
-    // Query untuk menyimpan data di tabel data_penjualan
     $updateDataPenjualan = mysqli_query($koneksi, "UPDATE data_penjualan SET tanggal_jual = '$tggl', nama_barang = '$nma', jumlah_jual = '$jml', gambar = '$gambarPath' WHERE id_penjualan = '$id'");
-
-    // Query untuk menyimpan data di tabel data_masuk
     $updateDataMasuk = mysqli_query($koneksi, "UPDATE data_masuk SET tanggal_masuk = '$tggl', keterangan = '$nma', jumlah_masuk = '$jml' WHERE id_penjualan = '$id'");
 
     if ($updateDataPenjualan && $updateDataMasuk) {
@@ -79,26 +63,21 @@ if (isset($_POST['simpan'])) {
 }
 ?>
 
-
 <script>
-function formatRupiah(angka) {
-  var reverse = angka.toString().split('').reverse().join(''),
-      ribuan = reverse.match(/\d{1,3}/g);
-  ribuan = ribuan.join('.').split('').reverse().join('');
-  return 'Rp.' + ribuan;
-}
+    function formatRupiah(angka) {
+    var reverse = angka.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+    return 'Rp.' + ribuan;
+    }
 
-function updateFormat() {
-  var jumlahJualInput = document.getElementById('format');
-  var jumlahJualValue = jumlahJualInput.value.replace(/\D/g, ''); // Hapus karakter non-digit
-  jumlahJualInput.value = formatRupiah(jumlahJualValue);
-
-  // Tambahkan baris berikut untuk menyimpan nilai numerik ke input tersembunyi
-  var numericInput = document.getElementById('jumlah_jual_numeric');
-  numericInput.value = jumlahJualValue;
-}
-
-
+    function updateFormat() {
+    var jumlahJualInput = document.getElementById('format');
+    var jumlahJualValue = jumlahJualInput.value.replace(/\D/g, '');
+    jumlahJualInput.value = formatRupiah(jumlahJualValue);
+    var numericInput = document.getElementById('jumlah_jual_numeric');
+    numericInput.value = jumlahJualValue;
+    }
 </script>
 
 <div class="container">
@@ -141,12 +120,6 @@ function updateFormat() {
                 </div>
             </form>
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-
-        </div>
-        <!-- /.card-footer-->
     </div>
 </div>
-
 <?php include 'src/footer.php'; ?>

@@ -2,20 +2,13 @@
 include 'src/header.php';
 
 if (isset($_POST['simpan'])) {
-    // Tangani upload gambar
     $gambar = $_FILES['gambar']['name'];
     $gambar_tmp = $_FILES['gambar']['tmp_name'];
     $lokasi_gambar = "gambar/data_masuk/$gambar";
-
     move_uploaded_file($gambar_tmp, $lokasi_gambar);
-
     $tggl  = date('Y-m-d', strtotime($_POST['tanggal_masuk']));
-
-    // Hilangkan simbol "Rp." dan format ribuan, dan hanya ambil karakter angka
     $jml   = preg_replace("/[^0-9]/", "", $_POST['jumlah_masuk']);
-
     $ket   = $_POST['keterangan'];
-
     $query = "INSERT INTO data_masuk (tanggal_masuk, jumlah_masuk, gambar, keterangan) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($koneksi, $query);
     mysqli_stmt_bind_param($stmt, "ssss", $tggl, $jml, $lokasi_gambar, $ket);
@@ -53,7 +46,6 @@ if (isset($_POST['simpan'])) {
 ?>
 
 <div class="container">
-  
   <div class="page-header">
     <h1 class="page-title">Pemasukan</h1>
     <div>
@@ -95,21 +87,19 @@ if (isset($_POST['simpan'])) {
   </div>
 </div>
 
-
-
 <script>
-function formatRupiah(angka) {
-  var reverse = angka.toString().split('').reverse().join(''),
-      ribuan = reverse.match(/\d{1,3}/g);
-  ribuan = ribuan.join('.').split('').reverse().join('');
-  return 'Rp.' + ribuan;
-}
+  function formatRupiah(angka) {
+    var reverse = angka.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+    return 'Rp.' + ribuan;
+  }
 
-function updateFormat() {
-  var gajiInput = document.getElementById('format');
-  var gajiValue = gajiInput.value.replace(/\D/g, '');
-  gajiInput.value = formatRupiah(gajiValue);
-}
+  function updateFormat() {
+    var gajiInput = document.getElementById('format');
+    var gajiValue = gajiInput.value.replace(/\D/g, '');
+    gajiInput.value = formatRupiah(gajiValue);
+  }
 </script>
 
 <?php include 'src/footer.php'; ?>
