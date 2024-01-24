@@ -20,7 +20,7 @@ if (isset($_POST['simpan'])) {
     $folder = 'gambar/data_penjualan/';
     if (!empty($gambar)) {
         $gambarPath = $folder . $gambar;
-        if (move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath)) {
+        if (move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/keuangan/admin/' . $gambarPath)) {
         } else {
             echo "Gagal mengunggah gambar.";
             exit;
@@ -120,7 +120,7 @@ if (isset($_POST['simpan'])) {
                     <input type="file" class="form-control" name="gambar" accept="image/*">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>
+                    <button type="submit" class='btn btn-md btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>
                 </div>
             </form>
         </div>

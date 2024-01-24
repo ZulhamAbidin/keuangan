@@ -81,7 +81,7 @@ if (isset($_POST['simpan'])) {
           <input type="file" class="form-control" name="gambar" id="gambar">
         </div>
 
-        <input type="submit" class="btn btn-primary" name="simpan" value="Simpan">
+        <input type="submit" class="btn btn-md btn-primary" name="simpan" value="Simpan">
       </form>
     </div>
   </div>

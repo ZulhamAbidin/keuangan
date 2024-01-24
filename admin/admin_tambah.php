@@ -4,41 +4,71 @@ include 'src/header.php';
 $alertMessage = '';
 $namaValue = ''; 
 $usernameValue = '';
+$insert_stmt = null; // Inisialisasi variabel untuk menghindari undefined variable notice
 
 if (isset($_POST['simpan'])) {
     $namaValue = $_POST['nama_admin'];
     $usernameValue = $_POST['username'];
-    $pass = md5($_POST['password']); 
-    if (strlen($_POST['password']) < 6) {
+    $password = $_POST['password'];
+
+    if (strlen($password) < 6) {
         $alertMessage = 'Password harus memiliki minimal 6 karakter';
     } else {
-        $check_username = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE username='$usernameValue'");
-        if (mysqli_num_rows($check_username) > 0) {
-            $alertMessage = 'Username sudah digunakan';
-        } else {
-            $simpan = mysqli_query($koneksi, "INSERT INTO data_admin VALUES('', '$namaValue', '$usernameValue', '$pass')");
-            if ($simpan) {
-                $alertMessage = 'Data Berhasil Di Simpan';
+        // Gunakan prepared statement untuk mencegah SQL injection
+        $check_username_stmt = mysqli_prepare($koneksi, "SELECT * FROM data_admin WHERE username=?");
+        mysqli_stmt_bind_param($check_username_stmt, "s", $usernameValue);
+        mysqli_stmt_execute($check_username_stmt);
+        mysqli_stmt_store_result($check_username_stmt);
 
-                echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "Berhasil!",
-                            text: "' . $alertMessage . '",
-                            confirmButtonColor: "#3085d6",
-                            confirmButtonText: "OK"
-                        }).then(function() {
-                            window.location.href = "data_admin.php";
-                        });
-                      </script>';
-                exit;
+        // Periksa apakah username sudah digunakan
+        if (mysqli_stmt_num_rows($check_username_stmt) > 0) {
+            $alertMessage = 'Gagal menyimpan data. Username sudah digunakan.';
+        } else {
+            // Gunakan prepared statement untuk mencegah SQL injection
+            $insert_stmt = mysqli_prepare($koneksi, "INSERT INTO data_admin (nama_admin, username, password) VALUES (?, ?, ?)");
+            
+            // Periksa apakah prepared statement berhasil dibuat
+            if ($insert_stmt) {
+                $hashed_password = md5($password);
+                mysqli_stmt_bind_param($insert_stmt, "sss", $namaValue, $usernameValue, $hashed_password);
+                $simpan = mysqli_stmt_execute($insert_stmt);
+
+                // Periksa apakah penyimpanan data berhasil
+                if ($simpan) {
+                    $alertMessage = 'Data Berhasil Disimpan';
+
+                    echo '<script>
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: "' . $alertMessage . '",
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: "OK"
+                            }).then(function() {
+                                window.location.href = "data_admin.php";
+                            });
+                          </script>';
+                    exit;
+                } else {
+                    $alertMessage = 'Gagal menyimpan data';
+                }
             } else {
-                $alertMessage = 'Gagal menyimpan data';
+                $alertMessage = 'Gagal membuat prepared statement untuk penyimpanan data';
             }
+        }
+
+        // Tutup prepared statements
+        mysqli_stmt_close($check_username_stmt);
+        
+        // Hanya tutup $insert_stmt jika sudah didefinisikan
+        if ($insert_stmt) {
+            mysqli_stmt_close($insert_stmt);
         }
     }
 }
 ?>
+
+
 
 <div class="container">
     <div class="page-header">
@@ -77,7 +107,7 @@ if (isset($_POST['simpan'])) {
                         placeholder="Input Password" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class='btn btn-primary' name="simpan"><span aria-hidden="true"></span>Simpan</button>
+                    <button type="submit" class='btn btn-md btn-primary' name="simpan"><span aria-hidden="true"></span>Simpan</button>
                 </div>
             </form>
         </div>

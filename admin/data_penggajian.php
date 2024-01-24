@@ -46,7 +46,7 @@
                                         <td><?= $data['nama_karyawan'] ?></td>
                                         <td><?= "Rp. " . number_format($data['banyak_gaji']) ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImageModal('/program_uang/admin/<?= $data['gambar'] ?>')">
+                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImageModal('/keuangan/admin/<?= $data['gambar'] ?>')">
                                                 <i class="fe fe-eye"></i>
                                             </button>
                                         </td>

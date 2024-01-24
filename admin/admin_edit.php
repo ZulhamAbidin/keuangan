@@ -1,4 +1,3 @@
-
 <?php
 include 'src/header.php';
 
@@ -7,43 +6,71 @@ $namaValue = '';
 $usernameValue = '';
 
 if(isset($_POST['simpan'])){
-    $id = $_GET['id_admin'];
-    $nama = $_POST['nama_admin'];
-    $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $id = isset($_GET['id_admin']) ? $_GET['id_admin'] : null;
+    $nama = isset($_POST['nama_admin']) ? $_POST['nama_admin'] : '';
+    $username = isset($_POST['username']) ? $_POST['username'] : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-    if (strlen($_POST['password']) < 6) {
+    // Validasi minimal panjang kata sandi
+    if (strlen($password) < 6) {
         $alertMessage = 'Password harus memiliki minimal 6 karakter';
     } else {
-        $check_username = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE username='$username' AND id_admin != '$id'");
-        if (mysqli_num_rows($check_username) > 0) {
+        // Persiapkan query menggunakan prepared statement
+        $check_username_stmt = mysqli_prepare($koneksi, "SELECT * FROM data_admin WHERE username=? AND id_admin != ?");
+        mysqli_stmt_bind_param($check_username_stmt, "si", $username, $id);
+        mysqli_stmt_execute($check_username_stmt);
+        mysqli_stmt_store_result($check_username_stmt);
+
+        // Periksa apakah username sudah digunakan
+        if (mysqli_stmt_num_rows($check_username_stmt) > 0) {
             $alertMessage = 'Username sudah digunakan';
         } else {
-            $update = mysqli_query($koneksi, "UPDATE data_admin SET nama_admin = '$nama', username = '$username', password = '$password' WHERE id_admin = '$id'");
-            if ($update) {
-                $alertMessage = 'Data Berhasil Diupdate';
-                echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "Berhasil!",
-                            text: "' . $alertMessage . '",
-                            confirmButtonColor: "#3085d6",
-                            confirmButtonText: "OK"
-                        }).then(function() {
-                            window.location.href = "data_admin.php";
-                        });
-                      </script>';
-                exit;
+            // Update data admin
+            $update_stmt = mysqli_prepare($koneksi, "UPDATE data_admin SET nama_admin=?, username=?, password=? WHERE id_admin=?");
+
+            // Periksa apakah prepared statement berhasil dibuat
+            if ($update_stmt) {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                mysqli_stmt_bind_param($update_stmt, "sssi", $nama, $username, $hashed_password, $id);
+                $update = mysqli_stmt_execute($update_stmt);
+
+                // Periksa apakah update berhasil
+                if ($update) {
+                    $alertMessage = 'Data Berhasil Diupdate';
+                    echo '<script>
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: "' . $alertMessage . '",
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: "OK"
+                            }).then(function() {
+                                window.location.href = "data_admin.php";
+                            });
+                          </script>';
+                    exit;
+                } else {
+                    $alertMessage = 'Gagal mengupdate data';
+                }
+
+                // Tutup prepared statement update
+                mysqli_stmt_close($update_stmt);
             } else {
-                $alertMessage = 'Gagal mengupdate data';
+                $alertMessage = 'Gagal membuat prepared statement untuk mengupdate data';
             }
         }
+
+        // Tutup prepared statement cek username
+        mysqli_stmt_close($check_username_stmt);
     }
+
+    // Set nilai kembali untuk formulir
     $namaValue = $nama;
     $usernameValue = $username;
 }
-
 ?>
+
+
 
 <div class="container">
   <div class="page-header">
@@ -86,7 +113,7 @@ if(isset($_POST['simpan'])){
                     <input type="password" class="form-control" id="password" name="password" autocomplete="off" placeholder="Input Password" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class='btn btn-primary' name="simpan"><span aria-hidden="true"></span>Simpan</button>
+                    <button type="submit" class='btn btn-md btn-primary' name="simpan"><span aria-hidden="true"></span>Simpan</button>
                 </div>
             </form>
         </div>

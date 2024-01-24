@@ -13,7 +13,7 @@ $tggl = date('Y-m-d', strtotime($tanggal_jual));
     $folder = 'gambar/data_penjualan/';
     if (!empty($gambar)) {
         $gambarPath = $folder . $gambar;
-        move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'].'/program_uang/admin/'.$gambarPath);
+        move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'].'keuangan/admin/'.$gambarPath);
     } else {
         $gambarPath = NULL;
     }
@@ -100,7 +100,7 @@ $tggl = date('Y-m-d', strtotime($tanggal_jual));
           <input type="file" class="form-control" name="gambar" accept="image/*" required>
         </div>
         <div class="form-group">
-          <button type="submit" class='btn btn-primary btn-sm' name="simpan">Simpan
+          <button type="submit" class='btn btn-primary btn-md' name="simpan">Simpan
           </button>
         </div>
       </form>

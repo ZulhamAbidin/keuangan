@@ -12,7 +12,7 @@ if(isset($_POST['simpan'])){
 
   if (!empty($gambar)) {
       $gambarPath = $folder . $gambar;
-      move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
+      move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/keuangan/admin/' . $gambarPath);
   } else {
       $gambarPath = '';
   }
@@ -106,7 +106,7 @@ function updateFormat() {
                     <input type="file" class="form-control" name="gambar" accept="image/*">
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary" name="simpan">
+                    <button type="submit" class="btn btn-primary btn-primary" name="simpan">
                         <span aria-hidden="true"></span>Simpan
                     </button>
                 </div>

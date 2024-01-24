@@ -102,8 +102,8 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 mb-5 pb-5 animation-zidex pos-relative">
                               
-                                <!-- <h1 class="text-start text-primary fw-bold">We Help to Build Your Dream Project with </h1> -->
-                                <h1 id="typed-output" class="typed-output text-primary text-start fw-bold text-3xl"></h1>
+                                
+                                <h1 id="typed-output" class="mt-6 mt-md-0 typed-output text-primary text-start fw-bold text-3xl"></h1>
                                 <script>
                                     document.addEventListener("DOMContentLoaded", function() {
                                         var options = {

@@ -9,7 +9,7 @@ if(isset($_POST['simpan'])){
   $gambarFolder = 'gambar/data_penggajian/';
   $gambarNama   = $_FILES['gambar']['name'];
   $gambarPath   = $gambarFolder . $gambarNama;
-  move_uploaded_file($_FILES['gambar']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
+  move_uploaded_file($_FILES['gambar']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/keuangan/admin/' . $gambarPath);
   $keterangan = "Penggajian Karyawan: $nama";
   if (empty($tggl) || empty($nip) || empty($nama) || empty($gaji) || empty($gambarNama)) {
     echo "<script>
@@ -117,7 +117,7 @@ if(isset($_POST['simpan'])){
           <input type="file" class="form-control" name="gambar" accept="image/*" autocomplete="off" required>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn btn-primary" name="simpan">
+          <button type="submit" class="btn btn-md btn-primary" name="simpan">
             <span aria-hidden="true"></span>Simpan
           </button>
         </div>

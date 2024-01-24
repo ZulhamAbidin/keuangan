@@ -18,7 +18,7 @@ if (isset($_GET['id_penggajian'])) {
         $gambarPath   = $gambarFolder . $gambarNama;
 
         if (!empty($gambarNama)) {
-            move_uploaded_file($_FILES['gambar']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
+            move_uploaded_file($_FILES['gambar']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/keuangan/admin/' . $gambarPath);
         } else {
             $gambarPath = $data['gambar'];
         }
@@ -128,7 +128,7 @@ if (isset($_GET['id_penggajian'])) {
           <input type="file" class="form-control" name="gambar" accept="image/*">
         </div>
         <div class="form-group">
-          <button type="submit" class='btn btn-primary' name="simpan">
+          <button type="submit" class='btn btn-md btn-primary' name="simpan">
             <span aria-hidden="true"></span>Simpan
           </button>
         </div>

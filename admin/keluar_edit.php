@@ -18,7 +18,7 @@ if (isset($_GET['id_keluar'])) {
 
         if (!empty($gambar)) {
             $gambarPath = $folder . $gambar;
-            move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/program_uang/admin/' . $gambarPath);
+            move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . '/keuangan/admin/' . $gambarPath);
         } else {
             $gambarPath = $data['gambar'];
         }
@@ -113,7 +113,7 @@ function updateFormat() {
           <input type="file" class="form-control" name="gambar" accept="image/*">
         </div>
         <div class="form-group">
-          <button type="submit" class='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>
+          <button type="submit" class='btn btn-md btn-primary shadow-sm' name="simpan"><span aria-hidden="true"></span>Simpan</button>
         </div>
       </form>
     </div>
