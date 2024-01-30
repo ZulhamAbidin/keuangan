@@ -1,5 +1,10 @@
-Pada Halaman Admin Silahkan buat folder
-1. gambar_masuk
-2. gambar_keluar
-3. gambar_penggajian
-4. gambar_penjualan
+
+Sistem Pengelolaan Keuangan Desa Panyiwi kabupaten bone menggunakan php native, bootstrap dan php versi 7.4, untuk database silahkan buat database dengan nama db_keuangan ( menyesuaikan di file koneksi.php)
+
+Pada Halaman Admin Silahkan buat folder gambar lu buat beberapa folder dibawah ini
+1. data_masuk
+2. data_keluar
+3. data_penggajian
+4. data_penjualan
+
+
