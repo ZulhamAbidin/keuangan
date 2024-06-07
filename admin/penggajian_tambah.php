@@ -1,0 +1,152 @@
+<!-- penggajian tambah "referensi" -->
+
+<?php
+include 'src/header.php';
+
+if(isset($_POST['simpan'])){
+  $tggl  = date('Y-m-d', strtotime($_POST['tanggal_gaji']));
+  $nip   = $_POST['nip'];
+  $nama  = $_POST['nama_karyawan'];
+  $keterangan  = $_POST['keterangan'];
+  $gaji = mysqli_real_escape_string($koneksi, $_POST['banyak_gaji_numeric']);
+
+  $gambarFolder = 'gambar/data_penggajian/';
+  $gambarNama   = $_FILES['gambar']['name'];
+  $gambar_tmp   = $_FILES['gambar']['tmp_name'];
+  $gambarPath   = $gambarFolder . $gambarNama;
+
+  if (move_uploaded_file($gambar_tmp, __DIR__ . '/' . $gambarPath)) {
+  } else {
+    echo "<script>
+            Swal.fire({
+              title: 'Gagal Mengunggah Gambar',
+              text: 'Terjadi kesalahan saat mengunggah gambar.',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            });
+          </script>";
+    exit;
+  }
+
+  if (empty($tggl) || empty($nama) || empty($gaji) || empty($gambarNama)) {
+    echo "<script>
+            Swal.fire({
+              title: 'Gagal Menyimpan Data',
+              text: 'Mohon lengkapi semua field.',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            });
+          </script>";
+    exit;
+  }
+
+  $simpan = mysqli_query($koneksi, "INSERT INTO data_penggajian (nip, tanggal_gaji, keterangan, nama_karyawan, banyak_gaji, gambar) VALUES ('$nip', '$tggl', '$keterangan', '$nama', '$gaji', '$gambarPath')");
+  $lastId = mysqli_insert_id($koneksi);
+  $simpanKeluar = mysqli_query($koneksi, "INSERT INTO data_keluar (id_penggajian, keterangan, tanggal_keluar, jumlah, gambar) VALUES ('$lastId', '$keterangan', '$tggl', '$gaji', '$gambarPath')");
+  
+  if ($simpan && $simpanKeluar) {
+    echo "<script>
+            Swal.fire({
+              title: 'Data Berhasil Disimpan',
+              icon: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location='data_penggajian.php';
+              }
+            });
+          </script>";
+    exit; 
+  } else {
+    echo "<script>
+            Swal.fire({
+              title: 'Gagal Menyimpan Data',
+              text: 'Terjadi kesalahan saat menyimpan data.',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            });
+          </script>";
+    exit; 
+  }
+}
+?>
+
+<script>
+  function formatRupiah(angka) {
+    var reverse = angka.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+    return 'Rp.' + ribuan;
+  }
+
+  function updateFormat() {
+    var gajiInput = document.getElementById('format');
+    var gajiValue = gajiInput.value.replace(/\D/g, '');
+    gajiInput.value = formatRupiah(gajiValue);
+    var numericInput = document.getElementById('banyak_gaji_numeric');
+    numericInput.value = gajiValue;
+  }
+</script>
+
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Penggajian</h1>
+    <div>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Penggajian</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+      </ol>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Tambah Data Penggajian</h3>
+    </div>
+    <div class="card-body">
+      <form method="post" action="" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="tanggal_gaji">Tanggal Penggajian</label>
+          <input type="date" class="form-control" name="tanggal_gaji" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+          <label for="nip">NIP/NIPTT <small class="text-danger ps-1">Optional </small> </label>
+          <input type="text" class="form-control" name="nip" autocomplete="off" placeholder="Input Nomor Induk Pegawai atau Nomor Induk Pegawai Tidak Tetap">
+        </div>
+        <div class="form-group">
+          <label for="nama_karyawan">Nama Karyawan</label>
+          <input type="text" class="form-control" name="nama_karyawan" autocomplete="off"
+            placeholder="Input Nama Karyawan"  required>
+        </div>
+        <div class="form-group">
+          <label for="banyak_gaji">Banyak Gaji</label>
+          <input type="text" class="form-control" name="banyak_gaji" autocomplete="off" oninput="updateFormat()" id="format" placeholder="Input Gaji Karyawan" required>
+          <input type="hidden" name="banyak_gaji_numeric" id="banyak_gaji_numeric">
+        </div>
+        <div class="form-group">
+          <label for="nip">Gambar</label>
+          <input type="file" class="form-control" name="gambar" accept="image/*" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+          <label for="keterangan">Keterangan Gambar</label>
+          <textarea type="text" required class="form-control" name="keterangan" autocomplete="off"
+            placeholder="Input Keterangan Gambar"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-md btn-primary" name="simpan">
+            <span aria-hidden="true"></span>Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<?php include 'src/footer.php'; ?>
